@@ -27,7 +27,7 @@ val biljke = listOf(
         "Može uzrokovati alergijske reakcije kod osjetljivih osoba.",
         listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.PROTUUPALNO),
         ProfilOkusaBiljke.AROMATICNO,
-        listOf("Čaj od kamilice"),
+        listOf("Čaj"),
         listOf(KlimatskiTip.UMJERENA, KlimatskiTip.SUBTROPSKA),
         listOf(Zemljiste.PJESKOVITO, Zemljiste.KRECNJACKO)
     ),
@@ -57,7 +57,7 @@ val biljke = listOf(
         "Trudnicama i dojiljama se savjetuje oprez pri konzumaciji čaja od ruže. Tonik od ruže može biti rizičan za osobe koje su pretrpjele teške srčane poremećaje.",
         listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.REGULACIJAPROBAVE, MedicinskaKorist.PROTUUPALNO, MedicinskaKorist.PODRSKAIMUNITETU),
         ProfilOkusaBiljke.SLATKI,
-        listOf("Sok od ruže", "Čaj od ruže", "Džem od ruže"),
+        listOf("Sok", "Čaj", "Džem"),
         listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.UMJERENA),
         listOf(Zemljiste.ILOVACA)
     ),
@@ -77,7 +77,7 @@ val biljke = listOf(
         "Može izazvati neurološke probleme i negativno utjecati na zdravlje jetre. U većim količinama može biti toksična.",
         listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.PROTIVBOLOVA, MedicinskaKorist.REGULACIJAPROBAVE),
         ProfilOkusaBiljke.AROMATICNO,
-        listOf("Čaj od žalfije"),
+        listOf("Čaj"),
         listOf(KlimatskiTip.PLANINSKA, KlimatskiTip.TROPSKA),
         listOf(Zemljiste.CRNICA)
     ),
@@ -87,7 +87,7 @@ val biljke = listOf(
         "Oprez je potreban kod osoba koje su sklone alergijama na šipurak ili ružu.",
         listOf(MedicinskaKorist.REGULACIJAPROBAVE, MedicinskaKorist.PODRSKAIMUNITETU, MedicinskaKorist.REGULACIJAPRITISKA),
         ProfilOkusaBiljke.SLATKI,
-        listOf("Pekmez", "Slatko od šipurka", "Sok od šipurka"),
+        listOf("Pekmez", "Slatko", "Sok"),
         listOf(KlimatskiTip.UMJERENA, KlimatskiTip.PLANINSKA),
         listOf(Zemljiste.ILOVACA)
     ),
