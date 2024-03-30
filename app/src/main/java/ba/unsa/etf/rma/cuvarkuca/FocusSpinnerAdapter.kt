@@ -26,7 +26,7 @@ class FocusSpinnerAdapter (
 
         if (item != null) {
             textView.setText(R.string.select_the_focus)
-            textView.setCompoundDrawablesWithIntrinsicBounds(item.icon.second, 0, 0, 0)
+            textView.setCompoundDrawablesWithIntrinsicBounds(item.id.solidIcon, 0, 0, 0)
         }
 
         return view
@@ -45,8 +45,8 @@ class FocusSpinnerAdapter (
         val item: Focus? = getItem(position)
 
         if (item != null) {
-            textView.setText(item.name)
-            textView.setCompoundDrawablesWithIntrinsicBounds(item.icon.first, 0, 0, 0)
+            textView.setText(item.id.name)
+            textView.setCompoundDrawablesWithIntrinsicBounds(item.id.outlineIcon, 0, 0, 0)
         }
 
         return view
