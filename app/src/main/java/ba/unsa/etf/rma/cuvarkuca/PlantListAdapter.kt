@@ -116,10 +116,13 @@ class PlantListAdapter (
         fun bindBotanicalData(plant: Biljka) {
             family.text = plant.porodica
 
-            val climateText: String = plant.klimatskiTipovi.joinToString(separator = ", ")
-            climate.text = climateText.lowercase()
+            if (plant.klimatskiTipovi.isNotEmpty()) {
+                climate.text = plant.klimatskiTipovi[0].opis
+            }
 
-            soil.text = plant.zemljisniTipovi.joinToString(separator = ", ")
+            if (plant.zemljisniTipovi.isNotEmpty()) {
+                soil.text = plant.zemljisniTipovi[0].naziv
+            }
         }
     }
 }

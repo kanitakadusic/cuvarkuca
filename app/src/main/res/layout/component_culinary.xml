@@ -3,16 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/profilOkusaItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         style="@style/plant_info_TEXT"
-        android:layout_marginVertical="4dp"
-        app:layout_constraintVertical_chainStyle="spread"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintBottom_toTopOf="@+id/dishBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +21,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dishBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

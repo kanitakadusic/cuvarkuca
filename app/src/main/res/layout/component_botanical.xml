@@ -3,16 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/porodicaItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         style="@style/plant_info_TEXT"
+        android:maxLines="1"
         android:layout_marginVertical="4dp"
-        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintBottom_toTopOf="@+id/klimatskiTipItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +21,12 @@
 
     <TextView
         android:id="@+id/klimatskiTipItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         style="@style/plant_info_TEXT"
+        android:maxLines="1"
+        app:drawableStartCompat="@drawable/dot_16px"
+        android:drawablePadding="2dp"
         app:layout_constraintBottom_toTopOf="@+id/zemljisniTipItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +34,13 @@
 
     <TextView
         android:id="@+id/zemljisniTipItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         style="@style/plant_info_TEXT"
-        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        app:drawableStartCompat="@drawable/dot_16px"
+        android:drawablePadding="2dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
