@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class PlantListAdapter (
-    private var plantList: List<Biljka>
+    private var plantList: List<Biljka>,
+    private val onItemClicked: (plant: Biljka) -> Unit
 ) : RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
     private var oldFocus: Focus = Focus.MEDICAL
     private var currentFocus: Focus = Focus.MEDICAL
@@ -43,6 +44,8 @@ class PlantListAdapter (
     ) {
         holder.manageVisibility()
         holder.bindData(plantList[position])
+
+        holder.itemView.setOnClickListener { onItemClicked(plantList[position]) }
     }
 
     inner class PlantViewHolder (
