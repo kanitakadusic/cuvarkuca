@@ -6,7 +6,6 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ImageButton
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,8 +53,7 @@ class MainActivity : AppCompatActivity() {
         resetIM = findViewById(R.id.resetBtn)
 
         resetIM.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Reset button clicked", Toast.LENGTH_SHORT).show()
-            // TODO()
+            plantLA.setList(plantList)
         }
 
         // RECYCLER VIEW - LIST PLANTS
@@ -68,8 +66,39 @@ class MainActivity : AppCompatActivity() {
         plantLA.setList(plantList)
     }
 
-    private fun onItemClicked(plant: Biljka) {
-        Toast.makeText(this@MainActivity, plant.naziv, Toast.LENGTH_SHORT).show()
-        // TODO()
+    private fun onItemClicked(reference: Biljka) {
+        val item = focusS.selectedItem
+
+        if (item is Focus) {
+            val similar: (Biljka, Biljka) -> Boolean = when (item) {
+                Focus.MEDICAL -> { x, y -> medicallySimilar(x, y) }
+                Focus.CULINARY -> { x, y -> culinarySimilar(x, y) }
+                Focus.BOTANICAL -> { x, y -> botanicallySimilar(x, y) }
+            }
+            val filteredList = mutableListOf<Biljka>()
+
+            for (plant in plantList) {
+                if (similar(reference, plant)) {
+                    filteredList.add(plant)
+                }
+            }
+
+            plantLA.setList(filteredList)
+        }
+    }
+
+    private fun medicallySimilar(x: Biljka, y: Biljka): Boolean {
+        return x.medicinskeKoristi.any { it in y.medicinskeKoristi }
+    }
+
+    private fun culinarySimilar(x: Biljka, y: Biljka): Boolean {
+        return x.profilOkusa == y.profilOkusa
+                || x.jela.any { it in y.jela }
+    }
+
+    private fun botanicallySimilar(x: Biljka, y: Biljka): Boolean {
+        return x.porodica == y.porodica
+                && x.klimatskiTipovi.any { it in y.klimatskiTipovi }
+                && x.zemljisniTipovi.any { it in y.zemljisniTipovi }
     }
 }
