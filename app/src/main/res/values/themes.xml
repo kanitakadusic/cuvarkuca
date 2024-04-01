@@ -19,5 +19,8 @@
         <item name="colorOnSurface">@color/grey_700</item>
 
         <item name="android:windowBackground">@color/grey_50</item>
+
+        <item name="android:statusBarColor">?attr/backgroundColor</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
