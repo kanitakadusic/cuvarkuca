@@ -89,7 +89,7 @@ class PlantListAdapter (
 
             val benefitList = plant.medicinskeKoristi
             for (i in 0 until minOf(benefits.size, benefitList.size)) {
-                benefits[i].text = benefitList[i].opis.trim().split(" ").first().lowercase()
+                benefits[i].text = benefitList[i].opis
             }
         }
 
@@ -105,7 +105,7 @@ class PlantListAdapter (
 
             val dishList = plant.jela
             for (i in 0 until minOf(dishes.size, dishList.size)) {
-                dishes[i].text = dishList[i].trim().split(" ").first().lowercase()
+                dishes[i].text = dishList[i]
             }
         }
 
