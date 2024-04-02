@@ -70,35 +70,20 @@ class MainActivity : AppCompatActivity() {
         val item = focusS.selectedItem
 
         if (item is Focus) {
-            val similar: (Biljka, Biljka) -> Boolean = when (item) {
-                Focus.MEDICAL -> { x, y -> medicallySimilar(x, y) }
-                Focus.CULINARY -> { x, y -> culinarySimilar(x, y) }
-                Focus.BOTANICAL -> { x, y -> botanicallySimilar(x, y) }
+            val similar: (Biljka) -> Boolean = when (item) {
+                Focus.MEDICAL -> { x -> x.medicallySimilarTo(reference) }
+                Focus.CULINARY -> { x -> x.culinarySimilarTo(reference) }
+                Focus.BOTANICAL -> { x -> x.botanicallySimilarTo(reference) }
             }
             val filteredList = mutableListOf<Biljka>()
 
             for (plant in plantList) {
-                if (similar(reference, plant)) {
+                if (similar(plant)) {
                     filteredList.add(plant)
                 }
             }
 
             plantLA.setList(filteredList)
         }
-    }
-
-    private fun medicallySimilar(x: Biljka, y: Biljka): Boolean {
-        return x.medicinskeKoristi.any { it in y.medicinskeKoristi }
-    }
-
-    private fun culinarySimilar(x: Biljka, y: Biljka): Boolean {
-        return x.profilOkusa == y.profilOkusa
-                || x.jela.any { it in y.jela }
-    }
-
-    private fun botanicallySimilar(x: Biljka, y: Biljka): Boolean {
-        return x.porodica == y.porodica
-                && x.klimatskiTipovi.any { it in y.klimatskiTipovi }
-                && x.zemljisniTipovi.any { it in y.zemljisniTipovi }
     }
 }
