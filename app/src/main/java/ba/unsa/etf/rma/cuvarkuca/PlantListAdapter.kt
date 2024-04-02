@@ -74,7 +74,7 @@ class PlantListAdapter (
             // val context: Context = holder.image.context
             // val imageId = context.resources.getIdentifier("tulips", "drawable", context.packageName)
             image.setImageResource(R.drawable.tulips)
-            title.text = plant.naziv.trim().split("(").first()
+            title.text = plant.naziv
         }
 
         private val caution: TextView = itemView.findViewById(R.id.upozorenjeItem)
