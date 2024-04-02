@@ -27,7 +27,7 @@ val biljke = listOf(
         "Može uzrokovati alergijske reakcije kod osjetljivih osoba.",
         listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.PROTUUPALNO),
         ProfilOkusaBiljke.AROMATICNO,
-        listOf("Čaj"),
+        listOf("Čaj od kamilice"),
         listOf(KlimatskiTip.UMJERENA, KlimatskiTip.SUBTROPSKA),
         listOf(Zemljiste.PJESKOVITO, Zemljiste.KRECNJACKO)
     ),
@@ -37,9 +37,9 @@ val biljke = listOf(
         "Treba ga koristiti umjereno i konsultovati se sa ljekarom pri dugotrajnoj upotrebi ili upotrebi u većim količinama.",
         listOf(MedicinskaKorist.PROTUUPALNO, MedicinskaKorist.REGULACIJAPRITISKA),
         ProfilOkusaBiljke.AROMATICNO,
-        listOf("Pečeno pile", "Grah", "Gulaš"),
+        listOf("Pečeno pile", "Grah","Gulaš"),
         listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.SUHA),
-        listOf(Zemljiste.SLJUNOVITO, Zemljiste.KRECNJACKO)
+        listOf(Zemljiste.SLJUNKOVITO, Zemljiste.KRECNJACKO)
     ),
     Biljka(
         "Lavanda (Lavandula angustifolia)",
@@ -69,7 +69,7 @@ val biljke = listOf(
         ProfilOkusaBiljke.GORKO,
         listOf("Ljekoviti sok", "Umirujući čaj"),
         listOf(KlimatskiTip.UMJERENA, KlimatskiTip.SUHA, KlimatskiTip.PLANINSKA),
-        listOf(Zemljiste.PJESKOVITO, Zemljiste.SLJUNOVITO)
+        listOf(Zemljiste.PJESKOVITO, Zemljiste.SLJUNKOVITO)
     ),
     Biljka(
         "Žalfija (Salvia officinalis)",
