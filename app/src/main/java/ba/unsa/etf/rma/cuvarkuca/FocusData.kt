@@ -1,5 +1,16 @@
 package ba.unsa.etf.rma.cuvarkuca
 
+// BEGIN: for testing purposes only [*]
+fun getFocus(name: String): Focus? {
+    return when (name) {
+        "Medicinski" -> Focus.MEDICAL
+        "Kuharski" -> Focus.CULINARY
+        "Botanički" -> Focus.BOTANICAL
+        else -> null
+    }
+}
+// END: for testing purposes only
+
 enum class Focus (val position: Int) {
     MEDICAL(0),
     CULINARY(1),

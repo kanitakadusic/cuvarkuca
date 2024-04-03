@@ -9,8 +9,8 @@ import android.widget.TextView
 
 class FocusSpinnerAdapter (
     context: Context,
-    focusList: List<Focus>
-) : ArrayAdapter<Focus>(context, 0, focusList) {
+    focusList: List<String>
+) : ArrayAdapter<String>(context, 0, focusList) {
 
     override fun getView(
         position: Int,
@@ -22,7 +22,7 @@ class FocusSpinnerAdapter (
             .inflate(R.layout.spinner_view_focus, parent, false)
 
         val textView: TextView = view.findViewById(R.id.spinner_view_focus_TEXTVIEW_select)
-        val focus: Focus = getItem(position)!!
+        val focus: Focus = getFocus(getItem(position)!!)!! // [*]
 
         textView.setText(R.string.select_the_focus)
         textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].solidIcon, 0, 0, 0)
@@ -40,7 +40,7 @@ class FocusSpinnerAdapter (
             .inflate(R.layout.spinner_item_focus, parent, false)
 
         val textView: TextView = view.findViewById(R.id.spinner_item_focus_TEXTVIEW_focus)
-        val focus: Focus = getItem(position)!!
+        val focus: Focus = getFocus(getItem(position)!!)!! // [*]
 
         textView.setText(focusData[focus.position].name)
         textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].outlineIcon, 0, 0, 0)
