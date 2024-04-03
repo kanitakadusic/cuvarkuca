@@ -19,7 +19,7 @@ class PlantListAdapter (
         notifyDataSetChanged()
     }
 
-    fun setFocus(focus: Focus) {
+    fun changeItemsDisplay(focus: Focus) {
         oldFocus = currentFocus
         currentFocus = focus
         notifyDataSetChanged()
@@ -42,8 +42,11 @@ class PlantListAdapter (
         holder: PlantViewHolder,
         position: Int
     ) {
-        holder.manageVisibility()
-        holder.bindData(plantList[position])
+        holder.image.setImageResource(R.drawable.tulips)
+        holder.title.text = plantList[position].naziv
+
+        holder.manageViewVisibility()
+        focusData[currentFocus.position].bindData(holder, plantList[position])
 
         holder.itemView.setOnClickListener { onItemClicked(plantList[position]) }
     }
@@ -51,78 +54,30 @@ class PlantListAdapter (
     inner class PlantViewHolder (
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
+        val image: ImageView = itemView.findViewById(R.id.slikaItem)
+        val title: TextView = itemView.findViewById(R.id.nazivItem)
 
-        fun manageVisibility() {
-            itemView.findViewById<View>(oldFocus.id.view).visibility = View.GONE
-            itemView.findViewById<View>(currentFocus.id.view).visibility = View.VISIBLE
-        }
-
-        fun bindData(plant: Biljka) {
-            bindGeneralData(plant)
-
-            when (currentFocus) {
-                Focus.MEDICAL -> bindMedicalData(plant)
-                Focus.CULINARY -> bindCulinaryData(plant)
-                Focus.BOTANICAL -> bindBotanicalData(plant)
-            }
-        }
-
-        private val image: ImageView = itemView.findViewById(R.id.slikaItem)
-        private val title: TextView = itemView.findViewById(R.id.nazivItem)
-
-        fun bindGeneralData(plant: Biljka) {
-            // val context: Context = holder.image.context
-            // val imageId = context.resources.getIdentifier("tulips", "drawable", context.packageName)
-            image.setImageResource(R.drawable.tulips)
-            title.text = plant.naziv
-        }
-
-        private val caution: TextView = itemView.findViewById(R.id.upozorenjeItem)
-        private val benefits: List<TextView> = listOf<TextView>(
+        val caution: TextView = itemView.findViewById(R.id.upozorenjeItem)
+        val benefits: List<TextView> = listOf<TextView>(
             itemView.findViewById(R.id.korist1Item),
             itemView.findViewById(R.id.korist2Item),
             itemView.findViewById(R.id.korist3Item)
         )
 
-        fun bindMedicalData(plant: Biljka) {
-            caution.text = plant.medicinskoUpozorenje
-
-            val benefitList = plant.medicinskeKoristi
-            for (i in 0 until minOf(benefits.size, benefitList.size)) {
-                benefits[i].text = benefitList[i].opis
-            }
-        }
-
-        private val taste: TextView = itemView.findViewById(R.id.profilOkusaItem)
-        private val dishes: List<TextView> = listOf<TextView>(
+        val taste: TextView = itemView.findViewById(R.id.profilOkusaItem)
+        val dishes: List<TextView> = listOf<TextView>(
             itemView.findViewById(R.id.jelo1Item),
             itemView.findViewById(R.id.jelo2Item),
             itemView.findViewById(R.id.jelo3Item)
         )
 
-        fun bindCulinaryData(plant: Biljka) {
-            taste.text = plant.profilOkusa.opis
+        val family: TextView = itemView.findViewById(R.id.porodicaItem)
+        val climate: TextView = itemView.findViewById(R.id.klimatskiTipItem)
+        val soil: TextView = itemView.findViewById(R.id.zemljisniTipItem)
 
-            val dishList = plant.jela
-            for (i in 0 until minOf(dishes.size, dishList.size)) {
-                dishes[i].text = dishList[i]
-            }
-        }
-
-        private val family: TextView = itemView.findViewById(R.id.porodicaItem)
-        private val climate: TextView = itemView.findViewById(R.id.klimatskiTipItem)
-        private val soil: TextView = itemView.findViewById(R.id.zemljisniTipItem)
-
-        fun bindBotanicalData(plant: Biljka) {
-            family.text = plant.porodica
-
-            if (plant.klimatskiTipovi.isNotEmpty()) {
-                climate.text = plant.klimatskiTipovi[0].opis
-            }
-
-            if (plant.zemljisniTipovi.isNotEmpty()) {
-                soil.text = plant.zemljisniTipovi[0].naziv
-            }
+        fun manageViewVisibility() {
+            itemView.findViewById<View>(focusData[oldFocus.position].viewBox).visibility = View.GONE
+            itemView.findViewById<View>(focusData[currentFocus.position].viewBox).visibility = View.VISIBLE
         }
     }
 }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class MainActivity : AppCompatActivity() {
     private lateinit var focusS: Spinner
     private lateinit var focusSA: FocusSpinnerAdapter
-    private var focusList: List<Focus> = enumValues<Focus>().toList()
+    private var focusList: List<Focus> = Focus.entries
 
     private lateinit var resetIM: ImageButton
 
@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
                 id: Long
             ) {
                 val item = parent?.getItemAtPosition(position)
-                if (item != null && item is Focus) {
-                    plantLA.setFocus(item)
+                if (item is Focus) {
+                    plantLA.changeItemsDisplay(item)
                 }
             }
 
@@ -70,15 +70,11 @@ class MainActivity : AppCompatActivity() {
         val item = focusS.selectedItem
 
         if (item is Focus) {
-            val similar: (Biljka) -> Boolean = when (item) {
-                Focus.MEDICAL -> { x -> x.medicallySimilarTo(reference) }
-                Focus.CULINARY -> { x -> x.culinarySimilarTo(reference) }
-                Focus.BOTANICAL -> { x -> x.botanicallySimilarTo(reference) }
-            }
+            val similar: (Biljka, Biljka) -> Boolean = focusData[item.position].similar
             val filteredList = mutableListOf<Biljka>()
 
             for (plant in plantList) {
-                if (similar(plant)) {
+                if (similar(reference, plant)) {
                     filteredList.add(plant)
                 }
             }

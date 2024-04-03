@@ -22,12 +22,10 @@ class FocusSpinnerAdapter (
             .inflate(R.layout.spinner_view_focus, parent, false)
 
         val textView: TextView = view.findViewById(R.id.spinner_view_focus_TEXTVIEW_select)
-        val item: Focus? = getItem(position)
+        val focus: Focus = getItem(position)!!
 
-        if (item != null) {
-            textView.setText(R.string.select_the_focus)
-            textView.setCompoundDrawablesWithIntrinsicBounds(item.id.solidIcon, 0, 0, 0)
-        }
+        textView.setText(R.string.select_the_focus)
+        textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].solidIcon, 0, 0, 0)
 
         return view
     }
@@ -42,12 +40,10 @@ class FocusSpinnerAdapter (
             .inflate(R.layout.spinner_item_focus, parent, false)
 
         val textView: TextView = view.findViewById(R.id.spinner_item_focus_TEXTVIEW_focus)
-        val item: Focus? = getItem(position)
+        val focus: Focus = getItem(position)!!
 
-        if (item != null) {
-            textView.setText(item.id.name)
-            textView.setCompoundDrawablesWithIntrinsicBounds(item.id.outlineIcon, 0, 0, 0)
-        }
+        textView.setText(focusData[focus.position].name)
+        textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].outlineIcon, 0, 0, 0)
 
         return view
     }
