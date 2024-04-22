@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="medical">Medicinski</string>
+    <string name="culinary">Kuharski</string>
+    <string name="botanical">Botanički</string>
+
+    <string name="select_the_focus">Odaberite fokus</string>
+    <string name="reset_the_filter">Uklanjanje filtera</string>
+
+    <string name="plant_image">Slika biljke</string>
+</resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cuvarkuca</string>
+    <string name="app_name" translatable="false">Cuvarkuca</string>
 
     <string name="medical">Medical</string>
     <string name="culinary">Culinary</string>
