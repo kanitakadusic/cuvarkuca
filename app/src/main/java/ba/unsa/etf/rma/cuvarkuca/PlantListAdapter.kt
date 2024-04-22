@@ -19,6 +19,8 @@ class PlantListAdapter (
         notifyDataSetChanged()
     }
 
+    fun getList(): List<Biljka> = plantList
+
     fun changeItemsDisplay(focus: Focus) {
         oldFocus = currentFocus
         currentFocus = focus

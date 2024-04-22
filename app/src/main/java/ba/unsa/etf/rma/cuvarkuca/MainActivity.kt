@@ -71,9 +71,11 @@ class MainActivity : AppCompatActivity() {
 
         if (item is Focus) {
             val similar: (Biljka, Biljka) -> Boolean = focusData[item.position].similar
+
+            val currentList = plantLA.getList()
             val filteredList = mutableListOf<Biljka>()
 
-            for (plant in plantList) {
+            for (plant in currentList) {
                 if (similar(reference, plant)) {
                     filteredList.add(plant)
                 }
