@@ -24,7 +24,7 @@ class FocusSpinnerAdapter (
         val textView: TextView = view.findViewById(R.id.spinner_view_focus_TEXTVIEW_select)
         val focus: Focus = getItem(position)!!
 
-        textView.setText(R.string.select_the_focus)
+        textView.setText(R.string.select_focus)
         textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].solidIcon, 0, 0, 0)
 
         return view

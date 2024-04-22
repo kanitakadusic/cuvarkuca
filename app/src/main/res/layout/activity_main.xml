@@ -46,7 +46,7 @@
             app:layout_constraintStart_toEndOf="@id/modSpinner"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/bg_button_reset"
-            android:contentDescription="@string/reset_the_filter" />
+            android:contentDescription="@string/remove_filters" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -63,5 +63,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/optionBox" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/novaBiljkaBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_24px"
+        android:contentDescription="@string/add_plant"
+        android:layout_margin="18dp"
+        app:elevation="4dp"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorPrimary"
+        app:rippleColor="?attr/colorSurface"
+        app:shapeAppearance="@style/ShapeAppearance.App.Fab"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

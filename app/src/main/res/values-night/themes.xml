@@ -5,7 +5,7 @@
 
     <style name="Theme.Cuvarkuca" parent="Base.Theme.Cuvarkuca">
         <item name="colorPrimary">@color/green_200</item>
-        <item name="colorPrimaryVariant">@color/green_900</item>
+        <item name="colorPrimaryVariant">@color/green_500</item>
         <item name="colorOnPrimary">@color/black</item>
 
         <item name="colorSecondary">@color/orange_200</item>
