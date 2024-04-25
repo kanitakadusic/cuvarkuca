@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="spinner_focus_TEXT">
+    <style name="MAIN_spinner">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="plant_name_TEXT">
+    <style name="MAIN_plant_name">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:textSize">16sp</item>
@@ -14,7 +14,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="plant_info_TEXT">
+    <style name="MAIN_plant_info">
         <item name="android:fontFamily">@font/roboto_light</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textSize">12sp</item>
@@ -22,13 +22,40 @@
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="plant_item_TEXT">
+    <style name="MAIN_plant_item">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">14sp</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
+    </style>
+    <style name="ADD_plant_name">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">text</item>
+    </style>
+    <style name="ADD_plant_family">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">text</item>
+    </style>
+    <style name="ADD_inputs">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:inputType">text</item>
+    </style>
+    <style name="ADD_headings">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
     <style name="ShapeAppearance.App.Fab" parent="ShapeAppearance.MaterialComponents">
         <item name="cornerFamily">rounded</item>

@@ -26,9 +26,9 @@
             android:id="@+id/slikaItem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@drawable/tulips"
             android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/tulips"
-            android:contentDescription="@string/plant_image" />
+            android:importantForAccessibility="no" />
 
     </androidx.cardview.widget.CardView>
 
@@ -47,7 +47,7 @@
             android:id="@+id/nazivItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/plant_name_TEXT"
+            style="@style/MAIN_plant_name"
             app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintBottom_toTopOf="@+id/focusBox"
             app:layout_constraintEnd_toEndOf="parent"

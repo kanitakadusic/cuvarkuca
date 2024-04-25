@@ -4,10 +4,18 @@
     <string name="culinary">Kuharski</string>
     <string name="botanical">Botanički</string>
 
+    <string name="medical_info">Medicinske informacije</string>
+    <string name="culinary_info">Kuharske informacije</string>
+    <string name="botanical_info">Botaničke informacije</string>
+
     <string name="select_focus">Izaberi fokus</string>
-
     <string name="remove_filters">Ukloni filtere</string>
-    <string name="add_plant">Dodaj novu biljku</string>
 
-    <string name="plant_image">Slika biljke</string>
+    <string name="camera">Uslikaj biljku</string>
+    <string name="name">Naziv</string>
+    <string name="family">Porodica</string>
+    <string name="warning">Upozorenje</string>
+    <string name="dish">Jelo</string>
+    <string name="add_dish">Dodaj jelo</string>
+    <string name="add_plant">Dodaj biljku</string>
 </resources>

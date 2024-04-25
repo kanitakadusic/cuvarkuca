@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,4 +7,216 @@
     android:layout_height="match_parent"
     tools:context=".NovaBiljkaActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pictureBox"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            app:cardCornerRadius="100dp"
+            android:elevation="8dp"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintBottom_toTopOf="@id/nazivET"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/slikaIV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/tulips"
+                android:scaleType="centerCrop"
+                android:importantForAccessibility="no" />
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/uslikajBiljkuBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/camera"
+            android:textColor="?attr/colorSecondary"
+            android:backgroundTint="?attr/colorSurface"
+            android:elevation="4dp"
+            android:stateListAnimator="@null"
+            app:layout_constraintBottom_toBottomOf="@id/pictureBox"
+            app:layout_constraintStart_toEndOf="@id/pictureBox"
+            app:layout_constraintEnd_toEndOf="@id/pictureBox" />
+
+        <EditText
+            android:id="@+id/nazivET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:background="@null"
+            android:hint="@string/name"
+            style="@style/ADD_plant_name"
+            android:importantForAutofill="no"
+            app:layout_constraintBottom_toTopOf="@id/porodicaET"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pictureBox" />
+
+        <EditText
+            android:id="@+id/porodicaET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:hint="@string/family"
+            android:background="@null"
+            style="@style/ADD_plant_family"
+            android:importantForAutofill="no"
+            app:layout_constraintBottom_toTopOf="@id/medicalTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nazivET" />
+
+        <TextView
+            android:id="@+id/medicalTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="14dp"
+            android:text="@string/medical_info"
+            style="@style/ADD_headings"
+            app:layout_constraintBottom_toTopOf="@id/medicinskoUpozorenjeET"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/porodicaET" />
+
+        <EditText
+            android:id="@+id/medicinskoUpozorenjeET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/warning"
+            android:background="@null"
+            style="@style/ADD_inputs"
+            android:importantForAutofill="no"
+            app:layout_constraintBottom_toTopOf="@id/medicinskaKoristLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/medicalTV" />
+
+        <ListView
+            android:id="@+id/medicinskaKoristLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/culinaryTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/medicinskoUpozorenjeET" />
+
+        <TextView
+            android:id="@+id/culinaryTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="14dp"
+            android:text="@string/culinary_info"
+            style="@style/ADD_headings"
+            app:layout_constraintBottom_toTopOf="@id/profilOkusaLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/medicinskaKoristLV" />
+
+        <ListView
+            android:id="@+id/profilOkusaLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/dodajJeloBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/culinaryTV" />
+
+        <EditText
+            android:id="@+id/jeloET"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:hint="@string/dish"
+            android:background="@null"
+            style="@style/ADD_inputs"
+            android:importantForAutofill="no"
+            app:layout_constraintBottom_toTopOf="@id/jelaLV"
+            app:layout_constraintEnd_toStartOf="@id/dodajJeloBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profilOkusaLV" />
+
+        <Button
+            android:id="@+id/dodajJeloBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_dish"
+            android:textColor="?attr/colorSecondary"
+            android:backgroundTint="?attr/colorSurface"
+            android:elevation="4dp"
+            android:stateListAnimator="@null"
+            app:layout_constraintBottom_toBottomOf="@id/jeloET"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/jeloET"
+            app:layout_constraintTop_toTopOf="@id/jeloET" />
+
+        <ListView
+            android:id="@+id/jelaLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/botanicalTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dodajJeloBtn" />
+
+        <TextView
+            android:id="@+id/botanicalTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="14dp"
+            android:text="@string/botanical_info"
+            style="@style/ADD_headings"
+            app:layout_constraintBottom_toTopOf="@id/klimatskiTipLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/jelaLV" />
+
+        <ListView
+            android:id="@+id/klimatskiTipLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/zemljisniTipLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/botanicalTV" />
+
+        <ListView
+            android:id="@+id/zemljisniTipLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/dodajBiljkuBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/klimatskiTipLV" />
+
+        <Button
+            android:id="@+id/dodajBiljkuBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_plant"
+            android:textColor="?attr/colorSecondary"
+            android:backgroundTint="?attr/colorSurface"
+            android:elevation="4dp"
+            android:stateListAnimator="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/zemljisniTipLV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

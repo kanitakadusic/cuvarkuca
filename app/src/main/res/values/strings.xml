@@ -5,10 +5,18 @@
     <string name="culinary">Culinary</string>
     <string name="botanical">Botanical</string>
 
+    <string name="medical_info">Medical information</string>
+    <string name="culinary_info">Culinary information</string>
+    <string name="botanical_info">Botanical information</string>
+
     <string name="select_focus">Select the focus</string>
-
     <string name="remove_filters">Remove filters</string>
-    <string name="add_plant">Add a new plant</string>
 
-    <string name="plant_image">Plant image</string>
+    <string name="camera">Picture plant</string>
+    <string name="name">Name</string>
+    <string name="family">Family</string>
+    <string name="warning">Warning</string>
+    <string name="dish">Dish</string>
+    <string name="add_dish">Add dish</string>
+    <string name="add_plant">Add plant</string>
 </resources>
