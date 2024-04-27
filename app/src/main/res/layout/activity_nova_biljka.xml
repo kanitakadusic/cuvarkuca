@@ -55,7 +55,7 @@
             android:id="@+id/nazivET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="6dp"
+            android:layout_marginVertical="8dp"
             android:background="@null"
             android:hint="@string/name"
             style="@style/ADD_plant_name"
@@ -83,8 +83,8 @@
             android:id="@+id/medicalTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/medical_info"
             style="@style/ADD_heading"
             app:layout_constraintBottom_toTopOf="@id/medicinskoUpozorenjeET"
@@ -96,14 +96,29 @@
             android:id="@+id/medicinskoUpozorenjeET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/warning"
             android:background="@null"
             style="@style/ADD_input"
             android:importantForAutofill="no"
-            app:layout_constraintBottom_toTopOf="@id/medicinskaKoristLV"
+            app:layout_constraintBottom_toTopOf="@id/medicalBenefits"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/medicalTV" />
+
+        <TextView
+            android:id="@+id/medicalBenefits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/medical_benefits"
+            style="@style/ADD_subheading"
+            app:layout_constraintBottom_toTopOf="@id/medicinskaKoristLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/medicinskoUpozorenjeET" />
 
         <ListView
             android:id="@+id/medicinskaKoristLV"
@@ -115,20 +130,33 @@
             app:layout_constraintBottom_toTopOf="@id/culinaryTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/medicinskoUpozorenjeET" />
+            app:layout_constraintTop_toBottomOf="@id/medicalBenefits" />
 
         <TextView
             android:id="@+id/culinaryTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/culinary_info"
             style="@style/ADD_heading"
-            app:layout_constraintBottom_toTopOf="@id/profilOkusaLV"
+            app:layout_constraintBottom_toTopOf="@id/flavourProfiles"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/medicinskaKoristLV" />
+
+        <TextView
+            android:id="@+id/flavourProfiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/flavor_profiles"
+            style="@style/ADD_subheading"
+            app:layout_constraintBottom_toTopOf="@id/profilOkusaLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/culinaryTV" />
 
         <ListView
             android:id="@+id/profilOkusaLV"
@@ -137,10 +165,23 @@
             android:choiceMode="singleChoice"
             android:listSelector="@android:color/transparent"
             android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@id/mealSuggestions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flavourProfiles" />
+
+        <TextView
+            android:id="@+id/mealSuggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/meal_suggestions"
+            style="@style/ADD_subheading"
             app:layout_constraintBottom_toTopOf="@id/dodajJeloBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/culinaryTV" />
+            app:layout_constraintTop_toBottomOf="@id/profilOkusaLV" />
 
         <EditText
             android:id="@+id/jeloET"
@@ -151,23 +192,25 @@
             android:background="@null"
             style="@style/ADD_input"
             android:importantForAutofill="no"
-            app:layout_constraintBottom_toTopOf="@id/jelaLV"
+            app:layout_constraintBottom_toBottomOf="@id/dodajJeloBtn"
             app:layout_constraintEnd_toStartOf="@id/dodajJeloBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profilOkusaLV" />
+            app:layout_constraintTop_toTopOf="@id/dodajJeloBtn" />
 
         <Button
             android:id="@+id/dodajJeloBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             style="@style/ADD_button"
             android:backgroundTint="?attr/colorSurface"
             android:elevation="4dp"
             android:stateListAnimator="@null"
-            app:layout_constraintBottom_toBottomOf="@id/jeloET"
+            app:layout_constraintBottom_toTopOf="@id/jelaLV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/jeloET"
-            app:layout_constraintTop_toTopOf="@id/jeloET" />
+            app:layout_constraintTop_toBottomOf="@id/mealSuggestions" />
 
         <ListView
             android:id="@+id/jelaLV"
@@ -184,14 +227,27 @@
             android:id="@+id/botanicalTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/botanical_info"
             style="@style/ADD_heading"
-            app:layout_constraintBottom_toTopOf="@id/klimatskiTipLV"
+            app:layout_constraintBottom_toTopOf="@id/climateTypes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/jelaLV" />
+
+        <TextView
+            android:id="@+id/climateTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/climate_types"
+            style="@style/ADD_subheading"
+            app:layout_constraintBottom_toTopOf="@id/klimatskiTipLV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/botanicalTV" />
 
         <ListView
             android:id="@+id/klimatskiTipLV"
@@ -200,10 +256,23 @@
             android:choiceMode="multipleChoice"
             android:listSelector="@android:color/transparent"
             android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@id/soilTypes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/climateTypes" />
+
+        <TextView
+            android:id="@+id/soilTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/soil_types"
+            style="@style/ADD_subheading"
             app:layout_constraintBottom_toTopOf="@id/zemljisniTipLV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/botanicalTV" />
+            app:layout_constraintTop_toBottomOf="@id/klimatskiTipLV" />
 
         <ListView
             android:id="@+id/zemljisniTipLV"
@@ -215,12 +284,14 @@
             app:layout_constraintBottom_toTopOf="@id/dodajBiljkuBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/klimatskiTipLV" />
+            app:layout_constraintTop_toBottomOf="@id/soilTypes" />
 
         <Button
             android:id="@+id/dodajBiljkuBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/add_plant"
             style="@style/ADD_button"
             android:backgroundTint="?attr/colorSurface"

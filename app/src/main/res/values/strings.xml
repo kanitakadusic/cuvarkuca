@@ -20,4 +20,10 @@
     <string name="add_dish">Add dish</string>
     <string name="modify_dish">Modify dish</string>
     <string name="add_plant">Add plant</string>
+    
+    <string name="medical_benefits">Medical benefits</string>
+    <string name="flavor_profiles">Flavor profiles</string>
+    <string name="meal_suggestions">Meal suggestions</string>
+    <string name="climate_types">Climate types</string>
+    <string name="soil_types">Soil types</string>
 </resources>

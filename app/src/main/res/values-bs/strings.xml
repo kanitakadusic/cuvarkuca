@@ -19,4 +19,10 @@
     <string name="add_dish">Dodaj jelo</string>
     <string name="modify_dish">Izmijeni jelo</string>
     <string name="add_plant">Dodaj biljku</string>
+
+    <string name="medical_benefits">Medicinske koristi</string>
+    <string name="flavor_profiles">Profili okusa</string>
+    <string name="meal_suggestions">Prijedlozi jela</string>
+    <string name="climate_types">Klimatski tipovi</string>
+    <string name="soil_types">Tipovi zemljišta</string>
 </resources>
