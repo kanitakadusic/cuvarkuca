@@ -13,7 +13,7 @@ class SingleListAdapter<T : EnumString>(
 
     private var selected: Int = 0
 
-    fun getSelectedItem(): Int = selected
+    fun getSelectedItem(): T = super.enumList[selected]
 
     override fun toggleSelection(position: Int) {
         selected = position
