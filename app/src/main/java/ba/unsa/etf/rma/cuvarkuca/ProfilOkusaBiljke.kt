@@ -1,6 +1,6 @@
 package ba.unsa.etf.rma.cuvarkuca
 
-enum class ProfilOkusaBiljke (val opis: String) {
+enum class ProfilOkusaBiljke (override val string: String) : EnumString {
     MENTA("Mentol - osvježavajući, hladan ukus"),
     CITRUSNI("Citrusni - osvježavajući, aromatičan"),
     SLATKI("Sladak okus"),

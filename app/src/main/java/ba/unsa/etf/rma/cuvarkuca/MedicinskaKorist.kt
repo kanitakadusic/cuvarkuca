@@ -1,6 +1,6 @@
 package ba.unsa.etf.rma.cuvarkuca
 
-enum class MedicinskaKorist (val opis: String) {
+enum class MedicinskaKorist (override val string: String) : EnumString {
     SMIRENJE("Smirenje - za smirenje i relaksaciju"),
     PROTUUPALNO("Protuupalno - za smanjenje upale"),
     PROTIVBOLOVA("Protivbolova - za smanjenje bolova"),

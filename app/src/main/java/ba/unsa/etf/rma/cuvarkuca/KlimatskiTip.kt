@@ -1,6 +1,6 @@
 package ba.unsa.etf.rma.cuvarkuca
 
-enum class KlimatskiTip (val opis: String) {
+enum class KlimatskiTip (override val string: String) : EnumString {
     SREDOZEMNA("Mediteranska klima - suha, topla ljeta i blage zime"),
     TROPSKA("Tropska klima - topla i vlažna tokom cijele godine"),
     SUBTROPSKA("Subtropska klima - blage zime i topla do vruća ljeta"),

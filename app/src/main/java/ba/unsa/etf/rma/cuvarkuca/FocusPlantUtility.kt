@@ -22,12 +22,12 @@ class FocusPlantUtility {
 
             val benefitList = plant.medicinskeKoristi
             for (i in 0 until minOf(holder.benefits.size, benefitList.size)) {
-                holder.benefits[i].text = benefitList[i].opis
+                holder.benefits[i].text = benefitList[i].string
             }
         }
 
         fun bindCulinaryData(holder: PlantListAdapter.PlantViewHolder, plant: Biljka) {
-            holder.taste.text = plant.profilOkusa.opis
+            holder.taste.text = plant.profilOkusa.string
 
             val dishList = plant.jela
             for (i in 0 until minOf(holder.dishes.size, dishList.size)) {
@@ -39,11 +39,11 @@ class FocusPlantUtility {
             holder.family.text = plant.porodica
 
             if (plant.klimatskiTipovi.isNotEmpty()) {
-                holder.climate.text = plant.klimatskiTipovi[0].opis
+                holder.climate.text = plant.klimatskiTipovi[0].string
             }
 
             if (plant.zemljisniTipovi.isNotEmpty()) {
-                holder.soil.text = plant.zemljisniTipovi[0].naziv
+                holder.soil.text = plant.zemljisniTipovi[0].string
             }
         }
     }
