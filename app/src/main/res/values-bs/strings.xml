@@ -17,5 +17,6 @@
     <string name="warning">Upozorenje</string>
     <string name="dish">Jelo</string>
     <string name="add_dish">Dodaj jelo</string>
+    <string name="modify_dish">Izmijeni jelo</string>
     <string name="add_plant">Dodaj biljku</string>
 </resources>

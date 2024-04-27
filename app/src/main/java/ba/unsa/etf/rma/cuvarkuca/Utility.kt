@@ -5,7 +5,7 @@ import android.widget.ListView
 
 class Utility {
     companion object {
-        fun manageHeight(listView: ListView) {
+        fun adjustListViewHeight(listView: ListView) {
             val adapter = listView.adapter ?: return
             var itemHeight = 0
 

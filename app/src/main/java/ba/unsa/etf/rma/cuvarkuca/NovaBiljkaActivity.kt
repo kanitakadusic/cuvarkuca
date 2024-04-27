@@ -1,11 +1,16 @@
 package ba.unsa.etf.rma.cuvarkuca
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class NovaBiljkaActivity : AppCompatActivity() {
+    private lateinit var dishET: EditText
+
+    private lateinit var dishB: Button
+
     private lateinit var benefitLV: ListView
     private lateinit var benefitLA: MultipleListAdapter<MedicinskaKorist>
 
@@ -25,44 +30,65 @@ class NovaBiljkaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
 
-        // LIST VIEW - BENEFITS
+        dishET = findViewById(R.id.jeloET)
+
+        dishB = findViewById(R.id.dodajJeloBtn)
+        dishB.text = getString(R.string.add_dish)
+        dishB.setOnClickListener { onDishButtonClicked() }
 
         benefitLV = findViewById(R.id.medicinskaKoristLV)
         benefitLA = MultipleListAdapter(this, MedicinskaKorist.entries)
         benefitLV.adapter = benefitLA
-        Utility.manageHeight(benefitLV)
-
-        // LIST VIEW - TASTE
+        Utility.adjustListViewHeight(benefitLV)
 
         tasteLV = findViewById(R.id.profilOkusaLV)
         tasteLA = SingleListAdapter(this, ProfilOkusaBiljke.entries)
         tasteLV.adapter = tasteLA
-        Utility.manageHeight(tasteLV)
-
-        // LIST VIEW - DISHES
+        Utility.adjustListViewHeight(tasteLV)
 
         dishLV = findViewById(R.id.jelaLV)
-        dishLA = StringListAdapter(this, listOf()) { dish -> onDishClicked(dish) }
+        dishLA = StringListAdapter(this, mutableListOf()) { dish -> onDishItemClicked(dish) }
         dishLV.adapter = dishLA
-
-        Utility.manageHeight(dishLV)
-
-        // LIST VIEW - CLIMATES
+        Utility.adjustListViewHeight(dishLV)
 
         climateLV = findViewById(R.id.klimatskiTipLV)
         climateLA = MultipleListAdapter(this, KlimatskiTip.entries)
         climateLV.adapter = climateLA
-        Utility.manageHeight(climateLV)
-
-        // LIST VIEW - SOILS
+        Utility.adjustListViewHeight(climateLV)
 
         soilLV = findViewById(R.id.zemljisniTipLV)
         soilLA = MultipleListAdapter(this, Zemljiste.entries)
         soilLV.adapter = soilLA
-        Utility.manageHeight(soilLV)
+        Utility.adjustListViewHeight(soilLV)
     }
 
-    private fun onDishClicked(dish: String) {
-        Toast.makeText(this, dish, Toast.LENGTH_SHORT).show()
+    private fun onDishButtonClicked() {
+        when (dishB.text.toString()) {
+            getString(R.string.add_dish) -> {
+                dishLA.addItem(dishET.text.toString())
+                Utility.adjustListViewHeight(dishLV)
+                dishET.text.clear()
+            }
+
+            getString(R.string.modify_dish) -> {
+                dishLA.modifySelectedItem(dishET.text.toString())
+
+                if (dishET.text.isEmpty()) Utility.adjustListViewHeight(dishLV)
+                else dishET.text.clear()
+
+                dishB.setText(R.string.add_dish)
+            }
+        }
+    }
+
+    private fun onDishItemClicked(dish: String?) {
+        if (dish != null) {
+            dishET.setText(dish)
+            dishET.setSelection(dishET.text.length)
+            dishB.setText(R.string.modify_dish)
+        } else {
+            dishET.text.clear()
+            dishB.setText(R.string.add_dish)
+        }
     }
 }

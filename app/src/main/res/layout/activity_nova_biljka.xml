@@ -160,7 +160,6 @@
             android:id="@+id/dodajJeloBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_dish"
             style="@style/ADD_button"
             android:backgroundTint="?attr/colorSurface"
             android:elevation="4dp"
