@@ -2,6 +2,11 @@ package ba.unsa.etf.rma.cuvarkuca
 
 import android.view.View
 import android.widget.ListView
+import android.widget.TextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class Utility {
     companion object {
@@ -24,6 +29,21 @@ class Utility {
             listView.layoutParams = params
 
             listView.requestLayout()
+        }
+
+        fun setAndRevertTextColor(
+            textView: TextView,
+            newColor: Int
+        ) {
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+            val originalColor = textView.currentTextColor
+            textView.setTextColor(newColor)
+
+            coroutineScope.launch {
+                delay(1500)
+                textView.setTextColor(originalColor)
+            }
         }
     }
 }

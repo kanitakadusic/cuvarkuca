@@ -18,6 +18,7 @@
         <item name="colorSurface">@color/grey_850</item>
         <item name="colorOnSurface">@color/grey_200</item>
 
+        <item name="colorError">@color/red_a200</item>
         <item name="colorOutline">@color/grey_850</item>
 
         <item name="android:windowBackground">@color/grey_900</item>

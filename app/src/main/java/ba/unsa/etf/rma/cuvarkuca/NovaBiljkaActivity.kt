@@ -3,13 +3,21 @@ package ba.unsa.etf.rma.cuvarkuca
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 
 class NovaBiljkaActivity : AppCompatActivity() {
-    private lateinit var dishET: EditText
+    private lateinit var imageIV: ImageView
 
+    private lateinit var cameraB: Button
     private lateinit var dishB: Button
+    private lateinit var addB: Button
+
+    private lateinit var nameET: EditText
+    private lateinit var familyET: EditText
+    private lateinit var warningET: EditText
+    private lateinit var dishET: EditText
 
     private lateinit var benefitLV: ListView
     private lateinit var benefitLA: MultipleListAdapter<MedicinskaKorist>
@@ -30,11 +38,22 @@ class NovaBiljkaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
 
+        imageIV = findViewById(R.id.slikaIV)
+
+        nameET = findViewById(R.id.nazivET)
+        familyET = findViewById(R.id.porodicaET)
+        warningET = findViewById(R.id.medicinskoUpozorenjeET)
         dishET = findViewById(R.id.jeloET)
+
+        cameraB = findViewById(R.id.uslikajBiljkuBtn)
+        cameraB.setOnClickListener {  }
 
         dishB = findViewById(R.id.dodajJeloBtn)
         dishB.text = getString(R.string.add_dish)
         dishB.setOnClickListener { onDishButtonClicked() }
+
+        addB = findViewById(R.id.dodajBiljkuBtn)
+        addB.setOnClickListener {  }
 
         benefitLV = findViewById(R.id.medicinskaKoristLV)
         benefitLA = MultipleListAdapter(this, MedicinskaKorist.entries)
@@ -47,7 +66,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         Utility.adjustListViewHeight(tasteLV)
 
         dishLV = findViewById(R.id.jelaLV)
-        dishLA = StringListAdapter(this, mutableListOf()) { dish -> onDishItemClicked(dish) }
+        dishLA = StringListAdapter(this, mutableListOf("")) { dish -> onDishItemClicked(dish) }
         dishLV.adapter = dishLA
         Utility.adjustListViewHeight(dishLV)
 
