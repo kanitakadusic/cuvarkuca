@@ -2,7 +2,9 @@ package ba.unsa.etf.rma.cuvarkuca
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -37,6 +39,10 @@ class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var soilLV: ListView
     private lateinit var soilLA: MultipleListAdapter<Zemljiste>
 
+    companion object {
+        const val CAPTURE_PLANT_REQUEST_CODE = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
@@ -55,7 +61,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         dishET = findViewById(R.id.jeloET)
 
         cameraB = findViewById(R.id.uslikajBiljkuBtn)
-        cameraB.setOnClickListener {  }
+        cameraB.setOnClickListener { dispatchTakePictureIntent() }
 
         dishB = findViewById(R.id.dodajJeloBtn)
         dishB.text = getString(R.string.add_dish)
@@ -88,6 +94,13 @@ class NovaBiljkaActivity : AppCompatActivity() {
         soilLA = MultipleListAdapter(this, Zemljiste.entries, 1)
         soilLV.adapter = soilLA
         Utility.adjustListViewHeight(soilLV)
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        @Suppress("DEPRECATION")
+        startActivityForResult(intent, CAPTURE_PLANT_REQUEST_CODE)
     }
 
     private fun onDishButtonClicked() {
@@ -152,6 +165,22 @@ class NovaBiljkaActivity : AppCompatActivity() {
         } else {
             dishET.text.clear()
             dishB.setText(R.string.add_dish)
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == CAPTURE_PLANT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            @Suppress("DEPRECATION")
+            val bitmap: Bitmap = data?.extras?.get("data") as Bitmap
+
+            imageIV.setImageBitmap(bitmap)
         }
     }
 }
