@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.google.android.material.color.MaterialColors
 
-class StringListAdapter(
+class UniqueListAdapter(
     private val context: Context,
     private val itemList: MutableList<String>,
     private val onItemClicked: (dish: String?) -> Unit

@@ -26,7 +26,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var tasteLA: SingleListAdapter<ProfilOkusaBiljke>
 
     private lateinit var dishLV: ListView
-    private lateinit var dishLA: StringListAdapter
+    private lateinit var dishLA: UniqueListAdapter
 
     private lateinit var climateLV: ListView
     private lateinit var climateLA: MultipleListAdapter<KlimatskiTip>
@@ -56,7 +56,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         addB.setOnClickListener {  }
 
         benefitLV = findViewById(R.id.medicinskaKoristLV)
-        benefitLA = MultipleListAdapter(this, MedicinskaKorist.entries)
+        benefitLA = MultipleListAdapter(this, MedicinskaKorist.entries, 1)
         benefitLV.adapter = benefitLA
         Utility.adjustListViewHeight(benefitLV)
 
@@ -66,17 +66,17 @@ class NovaBiljkaActivity : AppCompatActivity() {
         Utility.adjustListViewHeight(tasteLV)
 
         dishLV = findViewById(R.id.jelaLV)
-        dishLA = StringListAdapter(this, mutableListOf("")) { dish -> onDishItemClicked(dish) }
+        dishLA = UniqueListAdapter(this, mutableListOf("")) { dish -> onDishItemClicked(dish) }
         dishLV.adapter = dishLA
         Utility.adjustListViewHeight(dishLV)
 
         climateLV = findViewById(R.id.klimatskiTipLV)
-        climateLA = MultipleListAdapter(this, KlimatskiTip.entries)
+        climateLA = MultipleListAdapter(this, KlimatskiTip.entries, 1)
         climateLV.adapter = climateLA
         Utility.adjustListViewHeight(climateLV)
 
         soilLV = findViewById(R.id.zemljisniTipLV)
-        soilLA = MultipleListAdapter(this, Zemljiste.entries)
+        soilLA = MultipleListAdapter(this, Zemljiste.entries, 1)
         soilLV.adapter = soilLA
         Utility.adjustListViewHeight(soilLV)
     }
