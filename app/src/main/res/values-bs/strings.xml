@@ -25,4 +25,10 @@
     <string name="meal_suggestions">Prijedlozi jela</string>
     <string name="climate_types">Klimatski tipovi</string>
     <string name="soil_types">Tipovi zemljišta</string>
+
+    <string name="too_short">Prekratko! Najmanje 2 karaktera.</string>
+    <string name="too_long">Predugo! Najvise 20 karaktera.</string>
+
+    <string name="check_input_fields">Provjerite polja za unos.</string>
+    <string name="at_least_one_dish">Potrebno je dodati bar jedno jelo.</string>
 </resources>

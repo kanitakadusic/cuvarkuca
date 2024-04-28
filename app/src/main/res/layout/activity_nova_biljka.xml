@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:overScrollMode="never"
+    android:id="@+id/root"
     tools:context=".NovaBiljkaActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="24dp"
             android:background="@null"
             android:hint="@string/name"
             style="@style/ADD_plant_name"
@@ -70,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
+            android:layout_marginHorizontal="24dp"
             android:hint="@string/family"
             android:background="@null"
             style="@style/ADD_plant_family"

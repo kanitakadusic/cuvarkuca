@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 
 class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var imageIV: ImageView
@@ -41,8 +42,14 @@ class NovaBiljkaActivity : AppCompatActivity() {
         imageIV = findViewById(R.id.slikaIV)
 
         nameET = findViewById(R.id.nazivET)
+        Utility.setTextValidator(this, nameET)
+
         familyET = findViewById(R.id.porodicaET)
+        Utility.setTextValidator(this, familyET)
+
         warningET = findViewById(R.id.medicinskoUpozorenjeET)
+        Utility.setTextValidator(this, warningET)
+
         dishET = findViewById(R.id.jeloET)
 
         cameraB = findViewById(R.id.uslikajBiljkuBtn)
@@ -53,7 +60,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         dishB.setOnClickListener { onDishButtonClicked() }
 
         addB = findViewById(R.id.dodajBiljkuBtn)
-        addB.setOnClickListener {  }
+        addB.setOnClickListener { addNewPlant() }
 
         benefitLV = findViewById(R.id.medicinskaKoristLV)
         benefitLA = MultipleListAdapter(this, MedicinskaKorist.entries, 1)
@@ -82,6 +89,11 @@ class NovaBiljkaActivity : AppCompatActivity() {
     }
 
     private fun onDishButtonClicked() {
+        if (dishET.text.length == 1 || dishET.text.length > 20) {
+            Utility.validateTextLength(this, dishET)
+            return
+        }
+
         when (dishB.text.toString()) {
             getString(R.string.add_dish) -> {
                 dishLA.addItem(dishET.text.toString())
@@ -98,6 +110,31 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 dishB.setText(R.string.add_dish)
             }
         }
+    }
+
+    private fun addNewPlant() {
+        if (listOf(nameET, familyET, warningET).any {
+            it.text.length !in Utility.MIN_TEXT_LENGTH..Utility.MAX_TEXT_LENGTH
+        }) {
+            Snackbar.make(findViewById(R.id.root), R.string.check_input_fields, Snackbar.LENGTH_LONG).show()
+            return
+        }
+
+        if (dishLA.size() == 0) {
+            Snackbar.make(findViewById(R.id.root), R.string.at_least_one_dish, Snackbar.LENGTH_LONG).show()
+            return
+        }
+
+        val plant: Biljka = Biljka(
+            nameET.text.toString(),
+            familyET.text.toString(),
+            warningET.text.toString(),
+            benefitLA.getSelectedItems(),
+            tasteLA.getSelectedItem(),
+            dishLA.getItems(),
+            climateLA.getSelectedItems(),
+            soilLA.getSelectedItems()
+        )
     }
 
     private fun onDishItemClicked(dish: String?) {

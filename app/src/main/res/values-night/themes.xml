@@ -21,8 +21,10 @@
         <item name="colorError">@color/red_a200</item>
         <item name="colorOutline">@color/grey_850</item>
 
-        <item name="android:windowBackground">@color/grey_900</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">16sp</item>
 
+        <item name="android:windowBackground">@color/grey_900</item>
         <item name="android:statusBarColor">?attr/backgroundColor</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>

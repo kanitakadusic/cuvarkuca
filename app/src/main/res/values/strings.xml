@@ -26,4 +26,10 @@
     <string name="meal_suggestions">Meal suggestions</string>
     <string name="climate_types">Climate types</string>
     <string name="soil_types">Soil types</string>
+
+    <string name="too_short">Too short! Minimum is 2 characters.</string>
+    <string name="too_long">Too long! Maximum is 20 characters.</string>
+
+    <string name="check_input_fields">Check the input fields.</string>
+    <string name="at_least_one_dish">At least one dish should be added.</string>
 </resources>

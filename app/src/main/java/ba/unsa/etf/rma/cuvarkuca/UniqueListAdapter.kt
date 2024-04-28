@@ -34,11 +34,14 @@ class UniqueListAdapter(
         notifyDataSetChanged()
     }
 
-    fun getItems(): List<String> {
-        if (itemList.isNotEmpty() && itemList[0].isEmpty())
-            itemList.removeFirst()
+    fun size(): Int {
+        val start = if (itemList.isNotEmpty() && itemList[0].isEmpty()) 1 else 0
+        return itemList.size - start
+    }
 
-        return itemList
+    fun getItems(): List<String> {
+        val begin = if (itemList.isNotEmpty() && itemList[0].isEmpty()) 1 else 0
+        return itemList.subList(begin, itemList.size)
     }
 
     fun modifySelectedItem(item: String) {
