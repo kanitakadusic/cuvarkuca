@@ -1,6 +1,10 @@
 package ba.unsa.etf.rma.cuvarkuca
 
-enum class MedicinskaKorist (override val string: String) : EnumString {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class MedicinskaKorist (override val string: String) : EnumString, Parcelable {
     SMIRENJE("Smirenje - za smirenje i relaksaciju"),
     PROTUUPALNO("Protuupalno - za smanjenje upale"),
     PROTIVBOLOVA("Protivbolova - za smanjenje bolova"),

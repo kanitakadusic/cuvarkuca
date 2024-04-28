@@ -1,6 +1,10 @@
 package ba.unsa.etf.rma.cuvarkuca
 
-enum class Zemljiste (override val string: String) : EnumString {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class Zemljiste (override val string: String) : EnumString, Parcelable {
     PJESKOVITO("Pjeskovito zemljište"),
     GLINENO("Glineno zemljište"),
     ILOVACA("Ilovača"),

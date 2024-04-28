@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.cuvarkuca
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -125,7 +127,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             return
         }
 
-        val plant: Biljka = Biljka(
+        val plant = Biljka(
             nameET.text.toString(),
             familyET.text.toString(),
             warningET.text.toString(),
@@ -135,6 +137,11 @@ class NovaBiljkaActivity : AppCompatActivity() {
             climateLA.getSelectedItems(),
             soilLA.getSelectedItems()
         )
+
+        val intent = Intent()
+        intent.putExtra("plant", plant)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     private fun onDishItemClicked(dish: String?) {

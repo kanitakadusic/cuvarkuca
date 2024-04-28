@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.cuvarkuca
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -17,13 +18,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var focusSA: FocusSpinnerAdapter
     private var focusList: List<Focus> = Focus.entries
 
-    private lateinit var resetIM: ImageButton
+    private lateinit var resetIB: ImageButton
 
     private lateinit var plantRV: RecyclerView
     private lateinit var plantLA: PlantListAdapter
-    private var plantList: List<Biljka> = biljke
+    private var plantList: MutableList<Biljka> = biljke.toMutableList()
 
     private lateinit var addFAB: FloatingActionButton
+
+    companion object {
+        const val NEW_PLANT_REQUEST_CODE = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +59,9 @@ class MainActivity : AppCompatActivity() {
 
         // IMAGE BUTTON - RESET FILTER
 
-        resetIM = findViewById(R.id.resetBtn)
+        resetIB = findViewById(R.id.resetBtn)
 
-        resetIM.setOnClickListener {
+        resetIB.setOnClickListener {
             plantLA.setList(plantList)
         }
 
@@ -75,7 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         addFAB.setOnClickListener {
             val intent = Intent(this, NovaBiljkaActivity::class.java)
-            startActivity(intent)
+
+            @Suppress("DEPRECATION")
+            startActivityForResult(intent, NEW_PLANT_REQUEST_CODE)
         }
     }
 
@@ -95,6 +102,24 @@ class MainActivity : AppCompatActivity() {
             }
 
             plantLA.setList(filteredList)
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == NEW_PLANT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            @Suppress("DEPRECATION")
+            val plant: Biljka = data?.getParcelableExtra("plant")!!
+
+            resetIB.performClick()
+            plantList.add(plant)
+            plantLA.setList(plantList)
         }
     }
 }

@@ -1,6 +1,10 @@
 package ba.unsa.etf.rma.cuvarkuca
 
-enum class ProfilOkusaBiljke (override val string: String) : EnumString {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class ProfilOkusaBiljke (override val string: String) : EnumString, Parcelable {
     MENTA("Mentol - osvježavajući, hladan ukus"),
     CITRUSNI("Citrusni - osvježavajući, aromatičan"),
     SLATKI("Sladak okus"),
