@@ -9,7 +9,7 @@ class MultipleListAdapter<T : EnumString>(
 ) : ChoiceListAdapter<T>(
     context,
     enumList,
-    Pair(R.drawable.checkbox_checked_24px, R.drawable.checkbox_unchecked_24px)
+    Pair(R.drawable.ic_checkbox_checked, R.drawable.ic_checkbox_unchecked)
 ) {
 
     private var selected: HashSet<Int> = HashSet()

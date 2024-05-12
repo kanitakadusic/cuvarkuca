@@ -55,7 +55,7 @@ class Utility {
         }
 
         fun validateTextLength(context: Context, editText: EditText) {
-            val icon = ContextCompat.getDrawable(context, R.drawable.error_filled_24px)
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_error_filled)
             icon?.setBounds(0, 0, icon.intrinsicWidth, icon.intrinsicHeight)
 
             if (editText.text.length < MIN_TEXT_LENGTH) {

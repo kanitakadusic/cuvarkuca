@@ -8,7 +8,7 @@ class SingleListAdapter<T : EnumString>(
 ) : ChoiceListAdapter<T>(
     context,
     enumList,
-    Pair(R.drawable.radio_checked_24px, R.drawable.radio_unchecked_24px)
+    Pair(R.drawable.ic_radio_checked, R.drawable.ic_radio_unchecked)
 ) {
 
     private var selected: Int = 0
