@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-enum class MedicinskaKorist (override val string: String) : EnumString, Parcelable {
+enum class MedicinskaKorist (override val description: String) : EnumWithDescription, Parcelable {
     SMIRENJE("Smirenje - za smirenje i relaksaciju"),
     PROTUUPALNO("Protuupalno - za smanjenje upale"),
     PROTIVBOLOVA("Protivbolova - za smanjenje bolova"),

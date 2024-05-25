@@ -8,49 +8,63 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class PlantListAdapter (
-    private var plantList: List<Biljka>,
-    private val onItemClicked: (plant: Biljka) -> Unit
+    var items: List<Biljka>,
+    private val onItemClicked: (plant: Biljka) -> Unit,
+    private var focusContext: FocusContext
 ) : RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
-    private var oldFocus: Focus = Focus.MEDICAL
-    private var currentFocus: Focus = Focus.MEDICAL
+    private var focusHasChanged: Boolean = false
 
-    fun setList(list: List<Biljka>) {
-        plantList = list
+    fun setFocusContext(focusContext: FocusContext) {
+        this.focusContext = focusContext
+        focusHasChanged = true
         notifyDataSetChanged()
+        focusHasChanged = false
     }
 
-    fun getList(): List<Biljka> = plantList
-
-    fun changeItemsDisplay(focus: Focus) {
-        oldFocus = currentFocus
-        currentFocus = focus
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int = plantList.size
+    override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): PlantViewHolder {
-        val view = LayoutInflater
+        val itemView = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.recyclerview_item_plant, parent, false)
 
-        return PlantViewHolder(view)
+        return PlantViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
         holder: PlantViewHolder,
         position: Int
     ) {
-        holder.image.setImageResource(R.drawable.tulips)
-        holder.title.text = plantList[position].naziv
+        if (!focusHasChanged) {
+            val plant = items[position]
 
-        holder.manageViewVisibility()
-        focusData[currentFocus.position].bindData(holder, plantList[position])
+            holder.image.setImageResource(R.drawable.tulips)
+            holder.title.text = plant.naziv
 
-        holder.itemView.setOnClickListener { onItemClicked(plantList[position]) }
+            holder.caution.text = plant.medicinskoUpozorenje
+            val benefitList = plant.medicinskeKoristi
+            for (i in 0 until minOf(holder.benefits.size, benefitList.size))
+                holder.benefits[i].text = benefitList[i].description
+
+            holder.taste.text = plant.profilOkusa.description
+            val dishList = plant.jela
+            for (i in 0 until minOf(holder.dishes.size, dishList.size))
+                holder.dishes[i].text = dishList[i]
+
+            holder.family.text = plant.porodica
+            if (plant.klimatskiTipovi.isNotEmpty())
+                holder.climate.text = plant.klimatskiTipovi[0].description
+            if (plant.zemljisniTipovi.isNotEmpty())
+                holder.soil.text = plant.zemljisniTipovi[0].description
+        }
+
+        holder.itemView.findViewById<View>(focusContext.getPreviousFocus().view).visibility = View.GONE
+        holder.itemView.findViewById<View>(focusContext.getCurrentFocus().view).visibility = View.VISIBLE
+
+        holder.itemView.setOnClickListener { onItemClicked(items[position]) }
     }
 
     inner class PlantViewHolder (
@@ -76,10 +90,5 @@ class PlantListAdapter (
         val family: TextView = itemView.findViewById(R.id.porodicaItem)
         val climate: TextView = itemView.findViewById(R.id.klimatskiTipItem)
         val soil: TextView = itemView.findViewById(R.id.zemljisniTipItem)
-
-        fun manageViewVisibility() {
-            itemView.findViewById<View>(focusData[oldFocus.position].viewBox).visibility = View.GONE
-            itemView.findViewById<View>(focusData[currentFocus.position].viewBox).visibility = View.VISIBLE
-        }
     }
 }

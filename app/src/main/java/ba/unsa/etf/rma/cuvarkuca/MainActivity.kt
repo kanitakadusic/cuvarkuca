@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
@@ -14,15 +16,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+    private val focusContext = FocusContext(MedicalFocus)
+
     private lateinit var focusS: Spinner
-    private lateinit var focusSA: FocusSpinnerAdapter
-    private var focusList: List<Focus> = Focus.entries
+    private lateinit var focusFSA: FocusSpinnerAdapter
 
     private lateinit var resetIB: ImageButton
 
+    private lateinit var inputET: EditText
+
+    private lateinit var colorS: Spinner
+    private lateinit var colorCSA: ColorSpinnerAdapter
+
+    private lateinit var searchB: Button
+
     private lateinit var plantRV: RecyclerView
-    private lateinit var plantLA: PlantListAdapter
-    private var plantList: MutableList<Biljka> = biljke.toMutableList()
+    private lateinit var plantPLA: PlantListAdapter
+    private val plantML: MutableList<Biljka> = biljke.toMutableList()
 
     private lateinit var addFAB: FloatingActionButton
 
@@ -34,75 +44,113 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // SPINNER - CHANGE FOCUS
+        focusFSA = FocusSpinnerAdapter(
+            this,
+            listOf(MedicalFocus, CulinaryFocus, BotanicalFocus)
+        )
 
         focusS = findViewById(R.id.modSpinner)
+        focusS.adapter = focusFSA
+        focusS.onItemSelectedListener = onFocusSelect()
 
-        focusSA = FocusSpinnerAdapter(this, focusList)
-        focusS.adapter = focusSA
+        resetIB = findViewById(R.id.resetBtn)
+        resetIB.setOnClickListener { updatePlantList(plantML) }
 
-        focusS.onItemSelectedListener = object : OnItemSelectedListener {
+        inputET = findViewById(R.id.pretragaET)
+
+        colorCSA = ColorSpinnerAdapter(
+            this,
+            resources.getStringArray(R.array.color_names).toList(),
+            listOf(
+                R.color.red_400,
+                R.color.orange_400,
+                R.color.yellow_400,
+                R.color.green_400,
+                R.color.blue_400,
+                R.color.purple_400,
+                R.color.brown_400
+            )
+        )
+
+        colorS = findViewById(R.id.bojaSPIN)
+        colorS.adapter = colorCSA
+
+        searchB = findViewById(R.id.brzaPretraga)
+        searchB.setOnClickListener { onQuickSearchButtonClicked() }
+
+        plantPLA = PlantListAdapter(plantML, { plant -> onPlantClicked(plant) }, focusContext)
+
+        plantRV = findViewById(R.id.biljkeRV)
+        plantRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        plantRV.adapter = plantPLA
+
+        addFAB = findViewById(R.id.novaBiljkaBtn)
+        addFAB.setOnClickListener { onAddPlantButtonClicked() }
+
+        manageAppearanceOfInputAndColorFilters()
+    }
+
+    private fun onFocusSelect(): OnItemSelectedListener {
+        return object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                val item = parent?.getItemAtPosition(position)
-                if (item is Focus) {
-                    plantLA.changeItemsDisplay(item)
-                }
+                val focus = parent?.getItemAtPosition(position) as Focus
+                focusContext.changeFocus(focus)
+                manageAppearanceOfInputAndColorFilters()
+                plantPLA.setFocusContext(focusContext)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
-        // IMAGE BUTTON - RESET FILTER
-
-        resetIB = findViewById(R.id.resetBtn)
-
-        resetIB.setOnClickListener {
-            plantLA.setList(plantList)
-        }
-
-        // RECYCLER VIEW - LIST PLANTS
-
-        plantRV = findViewById(R.id.biljkeRV)
-        plantRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        plantLA = PlantListAdapter(listOf()) { plant -> onItemClicked(plant) }
-        plantRV.adapter = plantLA
-        plantLA.setList(plantList)
-
-        // FLOATING ACTION BUTTON
-
-        addFAB = findViewById(R.id.novaBiljkaBtn)
-
-        addFAB.setOnClickListener {
-            val intent = Intent(this, NovaBiljkaActivity::class.java)
-
-            @Suppress("DEPRECATION")
-            startActivityForResult(intent, NEW_PLANT_REQUEST_CODE)
-        }
     }
 
-    private fun onItemClicked(reference: Biljka) {
-        val item = focusS.selectedItem
+    private fun updatePlantList(plants: List<Biljka>) {
+        plantPLA.items = plants
+        plantPLA.notifyDataSetChanged()
+    }
 
-        if (item is Focus) {
-            val similar: (Biljka, Biljka) -> Boolean = focusData[item.position].similar
+    private fun onQuickSearchButtonClicked() {
 
-            val currentList = plantLA.getList()
-            val filteredList = mutableListOf<Biljka>()
+    }
 
-            for (plant in currentList) {
-                if (similar(reference, plant)) {
-                    filteredList.add(plant)
-                }
-            }
+    private fun onPlantClicked(plant: Biljka) {
+        updatePlantList(plantPLA.items.filter {
+            focusContext.getCurrentFocus().areSimilarPlants(it, plant)
+        })
+    }
 
-            plantLA.setList(filteredList)
+    private fun onAddPlantButtonClicked() {
+        val intent = Intent(this, NovaBiljkaActivity::class.java)
+        @Suppress("DEPRECATION")
+        startActivityForResult(intent, NEW_PLANT_REQUEST_CODE)
+    }
+
+    private fun manageAppearanceOfInputAndColorFilters() {
+        val available: Boolean = focusContext.getCurrentFocus().isFilterableByInputAndColor
+        val hint: Int
+        val color: Int
+
+        if (available) {
+            hint = R.string.plant
+            color = Utility.getAttrColor(this, com.google.android.material.R.attr.colorPrimary)
+        } else {
+            hint = R.string.not_available
+            color = Utility.getAttrColor(this, com.google.android.material.R.attr.colorOutlineVariant)
+            inputET.text.clear()
         }
+
+        Utility.setViewAvailability(inputET, available)
+        Utility.setViewAvailability(colorS, available)
+        Utility.setViewAvailability(searchB, available)
+
+        inputET.setHint(hint)
+        searchB.setTextColor(color)
+
+        colorCSA.setEnabledAppearance(available)
     }
 
     @Deprecated("Deprecated in Java")
@@ -118,8 +166,8 @@ class MainActivity : AppCompatActivity() {
             val plant: Biljka = data?.getParcelableExtra("plant")!!
 
             resetIB.performClick()
-            plantList.add(plant)
-            plantLA.setList(plantList)
+            plantML.add(plant)
+            updatePlantList(plantML)
         }
     }
 }

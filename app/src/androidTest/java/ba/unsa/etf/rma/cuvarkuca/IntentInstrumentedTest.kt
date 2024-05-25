@@ -46,7 +46,7 @@ class IntentInstrumentedTest {
             }
         }
 
-    // Zaista nemam ideju zasto klik na dugme samo u ovom testu pravi problem.
+    // klik na dugme iz nekog razloga pravi problem
 
     @Test
     fun takePicture() {

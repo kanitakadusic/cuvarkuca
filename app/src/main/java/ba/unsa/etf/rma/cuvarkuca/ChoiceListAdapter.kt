@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-abstract class ChoiceListAdapter<T : EnumString>(
+abstract class ChoiceListAdapter<T : EnumWithDescription>(
     context: Context,
-    protected val enumList: List<T>,
+    protected val items: List<T>,
     private val icons: Pair<Int, Int>
-) : ArrayAdapter<T>(context, 0, enumList) {
+) : ArrayAdapter<T>(context, 0, items) {
 
     protected abstract fun toggleSelection(position: Int)
     protected abstract fun isSelectedItem(position: Int): Boolean
@@ -21,20 +21,17 @@ abstract class ChoiceListAdapter<T : EnumString>(
         convertView: View?,
         parent: ViewGroup
     ): View {
-        val view = convertView ?: LayoutInflater
+        val itemView = convertView ?: LayoutInflater
             .from(context)
             .inflate(R.layout.listview_item, parent, false)
 
-        val text: TextView = view.findViewById(R.id.listview_item_TEXTVIEW)
-        text.text = enumList[position].string
+        val textView: TextView = itemView.findViewById(R.id.listview_item_textview)
+        val drawable: Int = if (isSelectedItem(position)) icons.first else icons.second
 
-        val drawable = if (isSelectedItem(position)) icons.first else icons.second
-        text.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
+        textView.text = items[position].description
+        textView.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
 
-        text.setOnClickListener {
-            toggleSelection(position)
-        }
-
-        return view
+        textView.setOnClickListener { toggleSelection(position) }
+        return itemView
     }
 }

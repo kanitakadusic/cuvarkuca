@@ -2,18 +2,17 @@ package ba.unsa.etf.rma.cuvarkuca
 
 import android.content.Context
 
-class SingleListAdapter<T : EnumString>(
+class SingleChoiceListAdapter<T : EnumWithDescription>(
     context: Context,
-    enumList: List<T>
+    items: List<T>
 ) : ChoiceListAdapter<T>(
     context,
-    enumList,
+    items,
     Pair(R.drawable.ic_radio_checked, R.drawable.ic_radio_unchecked)
 ) {
-
     private var selected: Int = 0
 
-    fun getSelectedItem(): T = super.enumList[selected]
+    fun getSelectedItem(): T = super.items[selected]
 
     override fun toggleSelection(position: Int) {
         selected = position

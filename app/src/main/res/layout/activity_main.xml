@@ -13,21 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
+        android:layout_marginVertical="12dp"
         android:layout_marginHorizontal="12dp"
         android:elevation="6dp"
-        android:background="@drawable/bg_box_option"
+        android:background="@drawable/bg_box"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/biljkeRV"
+        app:layout_constraintBottom_toTopOf="@id/searchBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <Spinner
             android:id="@+id/modSpinner"
-            android:layout_width="0dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:background="@null"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,6 +50,62 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="12dp"
+        android:elevation="6dp"
+        android:background="@drawable/bg_box"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/optionBox"
+        app:layout_constraintBottom_toTopOf="@id/biljkeRV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/brzaPretraga">
+
+        <EditText
+            android:id="@+id/pretragaET"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/plant"
+            style="@style/ADD_input"
+            android:importantForAutofill="no"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bojaSPIN" />
+
+        <Spinner
+            android:id="@+id/bojaSPIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:background="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pretragaET"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/brzaPretraga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="@string/quick_search"
+        style="@style/ADD_button"
+        android:backgroundTint="?attr/colorSurface"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        app:layout_constraintBottom_toBottomOf="@id/searchBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/searchBox"
+        app:layout_constraintTop_toTopOf="@id/searchBox" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/biljkeRV"
         android:layout_width="match_parent"
@@ -57,7 +113,7 @@
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:layout_marginTop="-24dp"
-        android:paddingTop="36dp"
+        android:paddingTop="86dp"
         android:paddingBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

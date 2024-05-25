@@ -9,25 +9,25 @@ import android.widget.TextView
 
 class FocusSpinnerAdapter (
     context: Context,
-    focusList: List<Focus>
-) : ArrayAdapter<Focus>(context, 0, focusList) {
+    items: List<Focus>
+) : ArrayAdapter<Focus>(context, 0, items) {
 
     override fun getView(
         position: Int,
         convertView: View?,
         parent: ViewGroup
     ): View {
-        val view: View = convertView ?: LayoutInflater
+        val itemView: View = convertView ?: LayoutInflater
             .from(context)
-            .inflate(R.layout.spinner_view_focus, parent, false)
+            .inflate(R.layout.spinner_title, parent, false)
 
-        val textView: TextView = view.findViewById(R.id.spinner_view_focus_TEXTVIEW_select)
+        val textView: TextView = itemView.findViewById(R.id.spinner_title_textview)
         val focus: Focus = getItem(position)!!
 
         textView.setText(R.string.select_focus)
-        textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].solidIcon, 0, 0, 0)
+        textView.setCompoundDrawablesWithIntrinsicBounds(focus.iconSolid, 0, 0, 0)
 
-        return view
+        return itemView
     }
 
     override fun getDropDownView(
@@ -35,16 +35,16 @@ class FocusSpinnerAdapter (
         convertView: View?,
         parent: ViewGroup
     ): View {
-        val view: View = convertView ?: LayoutInflater
+        val itemView: View = convertView ?: LayoutInflater
             .from(context)
-            .inflate(R.layout.spinner_item_focus, parent, false)
+            .inflate(R.layout.spinner_item, parent, false)
 
-        val textView: TextView = view.findViewById(R.id.spinner_item_focus_TEXTVIEW_focus)
+        val textView: TextView = itemView.findViewById(R.id.spinner_item_textview)
         val focus: Focus = getItem(position)!!
 
-        textView.setText(focusData[focus.position].name)
-        textView.setCompoundDrawablesWithIntrinsicBounds(focusData[focus.position].outlineIcon, 0, 0, 0)
+        textView.setText(focus.name)
+        textView.setCompoundDrawablesWithIntrinsicBounds(focus.iconOutline, 0, 0, 0)
 
-        return view
+        return itemView
     }
 }

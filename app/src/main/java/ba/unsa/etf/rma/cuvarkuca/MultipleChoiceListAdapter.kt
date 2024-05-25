@@ -2,28 +2,20 @@ package ba.unsa.etf.rma.cuvarkuca
 
 import android.content.Context
 
-class MultipleListAdapter<T : EnumString>(
+class MultipleChoiceListAdapter<T : EnumWithDescription>(
     context: Context,
-    enumList: List<T>,
+    items: List<T>,
     private val atLeast: Int = 0
 ) : ChoiceListAdapter<T>(
     context,
-    enumList,
+    items,
     Pair(R.drawable.ic_checkbox_checked, R.drawable.ic_checkbox_unchecked)
 ) {
-
-    private var selected: HashSet<Int> = HashSet()
-
-    init {
-        selected = hashSetOf()
-
-        for (i in 0 until atLeast)
-            selected.add(i)
-    }
+    private var selected: HashSet<Int> = (0 until atLeast).toHashSet()
 
     fun getSelectedItems(): List<T> {
         return selected.map { position ->
-            super.enumList[position]
+            super.items[position]
         }
     }
 

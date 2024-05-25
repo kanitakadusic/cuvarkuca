@@ -11,6 +11,20 @@
     <string name="select_focus">Izaberi fokus</string>
     <string name="remove_filters">Ukloni filtere</string>
 
+    <string name="plant">Biljka</string>
+    <string name="not_available">Nedostupno</string>
+    <string name="quick_search">Brza pretraga</string>
+
+    <string-array name="color_names">
+        <item>crvena</item>
+        <item>narandžasta</item>
+        <item>žuta</item>
+        <item>zelena</item>
+        <item>plava</item>
+        <item>ljubičasta</item>
+        <item>smeđa</item>
+    </string-array>
+
     <string name="camera">Uslikaj biljku</string>
     <string name="name">Naziv</string>
     <string name="family">Porodica</string>

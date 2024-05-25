@@ -12,6 +12,20 @@
     <string name="select_focus">Select the focus</string>
     <string name="remove_filters">Remove filters</string>
 
+    <string name="plant">Plant</string>
+    <string name="not_available">Not available</string>
+    <string name="quick_search">Quick search</string>
+
+    <string-array name="color_names">
+        <item>red</item>
+        <item>orange</item>
+        <item>yellow</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>purple</item>
+        <item>brown</item>
+    </string-array>
+
     <string name="camera">Picture plant</string>
     <string name="name">Name</string>
     <string name="family">Family</string>
