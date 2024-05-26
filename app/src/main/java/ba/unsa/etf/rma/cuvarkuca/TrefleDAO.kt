@@ -8,8 +8,6 @@ import ba.unsa.etf.rma.cuvarkuca.services.GetPlantResponse
 import ba.unsa.etf.rma.cuvarkuca.services.GetSearchResponse
 import ba.unsa.etf.rma.cuvarkuca.services.PlantRepository
 import ba.unsa.etf.rma.cuvarkuca.services.PlantResult
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 object TrefleDAO {
     val defaultBitmap = R.drawable.tulips
@@ -25,22 +23,18 @@ object TrefleDAO {
     suspend fun fixData(
         plant: Biljka
     ): Biljka {
-        return withContext(Dispatchers.IO) {
-            var fixed: Biljka = plant
-
-            when (val searchResponse = PlantRepository.getSearchResponse(plant.naziv)) {
-                is GetSearchResponse -> {
-                    if (searchResponse.results.isNotEmpty())
-                        when (val plantResponse =
-                            PlantRepository.getPlantResponse(searchResponse.results[0].identifier)) {
-                            is GetPlantResponse -> fixed = getFixedPlant(plant, plantResponse.plant)
-                            else -> Log.e("TrefleDAO", "fixData -> GetPlantResponse")
-                        }
-                } else -> Log.e("TrefleDAO", "fixData -> GetSearchResponse")
-            }
-
-            fixed
+        when (val searchResponse = PlantRepository.getSearchResponse(plant.naziv)) {
+            is GetSearchResponse -> {
+                if (searchResponse.results.isNotEmpty()) {
+                    when (val plantResponse = PlantRepository.getPlantResponse(searchResponse.results[0].identifier)) {
+                        is GetPlantResponse -> return getFixedPlant(plant, plantResponse.plant)
+                        else -> Log.e("TrefleDAO", "fixData -> not GetPlantResponse")
+                    }
+                } else Log.i("TrefleDAO", "fixData -> searchResponse.results is empty")
+            } else -> Log.e("TrefleDAO", "fixData -> not GetSearchResponse")
         }
+
+        return plant
     }
 
     private fun getFixedPlant(

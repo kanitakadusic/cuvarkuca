@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import ba.unsa.etf.rma.cuvarkuca.adapters.MultipleChoiceListAdapter
 import ba.unsa.etf.rma.cuvarkuca.adapters.SingleChoiceListAdapter
 import ba.unsa.etf.rma.cuvarkuca.adapters.UniqueItemsListAdapter
@@ -19,6 +20,7 @@ import ba.unsa.etf.rma.cuvarkuca.models.MedicinskaKorist
 import ba.unsa.etf.rma.cuvarkuca.models.ProfilOkusaBiljke
 import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var imageIV: ImageView
@@ -158,10 +160,12 @@ class NovaBiljkaActivity : AppCompatActivity() {
             soilMCLA.getSelectedItems()
         )
 
-        val intent = Intent()
-        intent.putExtra("plant", plant)
-        setResult(Activity.RESULT_OK, intent)
-        finish()
+        lifecycleScope.launch {
+            val intent = Intent()
+            intent.putExtra("plant", TrefleDAO.fixData(plant))
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
     }
 
     private fun onDishClicked(dish: String?) {
