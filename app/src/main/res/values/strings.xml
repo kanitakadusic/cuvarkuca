@@ -12,11 +12,12 @@
     <string name="select_focus">Select the focus</string>
     <string name="remove_filters">Remove filters</string>
 
-    <string name="plant">Plant</string>
+    <string name="search">Search</string>
+    <string name="loading">Loading…</string>
     <string name="not_available">Not available</string>
     <string name="quick_search">Quick search</string>
 
-    <string-array name="color_names">
+    <string-array name="color_names" translatable="false">
         <item>red</item>
         <item>orange</item>
         <item>yellow</item>

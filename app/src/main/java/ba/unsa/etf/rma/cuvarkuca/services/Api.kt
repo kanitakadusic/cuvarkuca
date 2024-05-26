@@ -18,4 +18,11 @@ interface Api {
         @Path("slug") identifier: String,
         @Query("token") apiKey: String = BuildConfig.TREFLE_API_KEY
     ): Response<GetPlantResponse>
+
+    @GET("species/search")
+    suspend fun getFilterResponse(
+        @Query("filter[flower_color]") color: String,
+        @Query("q") query: String,
+        @Query("token") apiKey: String = BuildConfig.TREFLE_API_KEY
+    ): Response<GetSearchResponse>
 }

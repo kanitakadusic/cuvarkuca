@@ -23,9 +23,14 @@ import ba.unsa.etf.rma.cuvarkuca.models.Focus
 import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import ba.unsa.etf.rma.cuvarkuca.models.MedicalFocus
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val focusContext = FocusContext(MedicalFocus)
+    private var isFilteredByFlowerColor = false
 
     private lateinit var focusS: Spinner
     private lateinit var focusFSA: FocusSpinnerAdapter
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var plantRV: RecyclerView
     private lateinit var plantPLA: PlantListAdapter
-    private val plantML: MutableList<Biljka> = biljke.toMutableList()
+    private val plants: MutableList<Biljka> = biljke.toMutableList()
 
     private lateinit var addFAB: FloatingActionButton
 
@@ -63,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         focusS.onItemSelectedListener = onFocusSelect()
 
         resetIB = findViewById(R.id.resetBtn)
-        resetIB.setOnClickListener { updatePlantList(plantML) }
+        resetIB.setOnClickListener { onResetButtonClicked() }
 
         inputET = findViewById(R.id.pretragaET)
 
@@ -87,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         searchB = findViewById(R.id.brzaPretraga)
         searchB.setOnClickListener { onQuickSearchButtonClicked() }
 
-        plantPLA = PlantListAdapter(plantML, { plant -> onPlantClicked(plant) }, focusContext)
+        plantPLA = PlantListAdapter(plants, { plant -> onPlantClicked(plant) }, focusContext)
 
         plantRV = findViewById(R.id.biljkeRV)
         plantRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -110,11 +115,22 @@ class MainActivity : AppCompatActivity() {
                 val focus = parent?.getItemAtPosition(position) as Focus
                 focusContext.changeFocus(focus)
                 manageAppearanceOfInputAndColorFilters()
+
+                if (isFilteredByFlowerColor) {
+                    plantPLA.items = plants
+                    isFilteredByFlowerColor = false
+                }
+
                 plantPLA.setFocusContext(focusContext)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+    }
+
+    private fun onResetButtonClicked() {
+        updatePlantList(plants)
+        isFilteredByFlowerColor = false
     }
 
     private fun updatePlantList(plants: List<Biljka>) {
@@ -123,10 +139,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onQuickSearchButtonClicked() {
+        val input = inputET.text.toString()
 
+        if (input.isNotEmpty()) {
+            val color = colorS.selectedItem.toString()
+            isFilteredByFlowerColor = true
+
+            val scope = CoroutineScope(Job() + Dispatchers.Main)
+            scope.launch {
+                inputET.setText(R.string.loading)
+                updatePlantList(TrefleDAO.getPlantsWithFlowerColor(color, input))
+                inputET.text.clear()
+            }
+        }
     }
 
     private fun onPlantClicked(plant: Biljka) {
+        if (isFilteredByFlowerColor) return
+
         updatePlantList(plantPLA.items.filter {
             focusContext.getCurrentFocus().areSimilarPlants(it, plant)
         })
@@ -144,7 +174,7 @@ class MainActivity : AppCompatActivity() {
         val color: Int
 
         if (available) {
-            hint = R.string.plant
+            hint = R.string.search
             color = Utility.getAttrColor(this, com.google.android.material.R.attr.colorPrimary)
         } else {
             hint = R.string.not_available
@@ -174,9 +204,8 @@ class MainActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             val plant: Biljka = data?.getParcelableExtra("plant")!!
 
+            plants.add(plant)
             resetIB.performClick()
-            plantML.add(plant)
-            updatePlantList(plantML)
         }
     }
 }

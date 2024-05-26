@@ -3,6 +3,7 @@ package ba.unsa.etf.rma.cuvarkuca
 import android.util.Log
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 import ba.unsa.etf.rma.cuvarkuca.models.KlimatskiTip
+import ba.unsa.etf.rma.cuvarkuca.models.ProfilOkusaBiljke
 import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
 import ba.unsa.etf.rma.cuvarkuca.services.GetPlantResponse
 import ba.unsa.etf.rma.cuvarkuca.services.GetSearchResponse
@@ -13,10 +14,18 @@ object TrefleDAO {
     val defaultBitmap = R.drawable.tulips
 
     /*
-    fun getImage(
+    suspend fun getImage(
         plant: Biljka
     ): Bitmap {
+        when (val searchResponse = PlantRepository.getSearchResponse(plant.naziv)) {
+            is GetSearchResponse -> {
+                if (searchResponse.results.isNotEmpty()) {
+                    val url = searchResponse.results[0].imageUrl
+                } else Log.i("TrefleDAO", "fixData -> searchResponse.results is empty")
+            } else -> Log.e("TrefleDAO", "fixData -> not GetSearchResponse")
+        }
 
+        return plant
     }
     */
 
@@ -79,7 +88,7 @@ object TrefleDAO {
         }
 
         return Biljka(
-            plant.naziv,
+            data.scientificName,
             data.family,
             fixedWarning,
             plant.medicinskeKoristi,
@@ -90,12 +99,32 @@ object TrefleDAO {
         )
     }
 
-    /*
-    fun getPlantsWithFlowerColor(
+    suspend fun getPlantsWithFlowerColor(
         color: String,
         input: String
     ): List<Biljka> {
-        return listOf()
+        val plants: MutableList<Biljka> = mutableListOf()
+        val default = Biljka(
+            "",
+            "",
+            "",
+            listOf(),
+            ProfilOkusaBiljke.BEZUKUSNO,
+            listOf(),
+            listOf(),
+            listOf()
+        )
+
+        when (val filterResponse = PlantRepository.getFilterResponse(color, input)) {
+            is GetSearchResponse -> {
+                for (result in filterResponse.results)
+                    when (val plantResponse = PlantRepository.getPlantResponse(result.identifier)) {
+                        is GetPlantResponse -> plants.add(getFixedPlant(default, plantResponse.plant))
+                        else -> Log.e("TrefleDAO", "flowerColor -> not GetPlantResponse")
+                    }
+            } else -> Log.e("TrefleDAO", "flowerColor -> not GetSearchResponse")
+        }
+
+        return plants
     }
-    */
 }

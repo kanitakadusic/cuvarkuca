@@ -71,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="@string/plant"
+            android:hint="@string/search"
             style="@style/ADD_input"
             android:importantForAutofill="no"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
