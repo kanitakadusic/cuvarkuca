@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cuvarkuca
+package ba.unsa.etf.rma.cuvarkuca.models
 
 class FocusContext(
     private var currentFocus: Focus

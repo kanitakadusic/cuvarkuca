@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cuvarkuca
+package ba.unsa.etf.rma.cuvarkuca.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import ba.unsa.etf.rma.cuvarkuca.models.Focus
+import ba.unsa.etf.rma.cuvarkuca.R
 
 class FocusSpinnerAdapter (
     context: Context,

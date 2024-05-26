@@ -1,4 +1,6 @@
-package ba.unsa.etf.rma.cuvarkuca
+package ba.unsa.etf.rma.cuvarkuca.models
+
+import ba.unsa.etf.rma.cuvarkuca.R
 
 object BotanicalFocus : Focus {
     override val name = R.string.botanical

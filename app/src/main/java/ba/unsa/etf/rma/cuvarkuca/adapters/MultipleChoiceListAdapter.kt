@@ -1,6 +1,8 @@
-package ba.unsa.etf.rma.cuvarkuca
+package ba.unsa.etf.rma.cuvarkuca.adapters
 
 import android.content.Context
+import ba.unsa.etf.rma.cuvarkuca.R
+import ba.unsa.etf.rma.cuvarkuca.models.EnumWithDescription
 
 class MultipleChoiceListAdapter<T : EnumWithDescription>(
     context: Context,

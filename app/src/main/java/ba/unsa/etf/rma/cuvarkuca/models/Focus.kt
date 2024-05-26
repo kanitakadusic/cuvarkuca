@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cuvarkuca
+package ba.unsa.etf.rma.cuvarkuca.models
 
 interface Focus {
     val name: Int

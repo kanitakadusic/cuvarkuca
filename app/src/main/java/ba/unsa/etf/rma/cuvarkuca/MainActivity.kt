@@ -13,6 +13,15 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ba.unsa.etf.rma.cuvarkuca.adapters.ColorSpinnerAdapter
+import ba.unsa.etf.rma.cuvarkuca.adapters.FocusSpinnerAdapter
+import ba.unsa.etf.rma.cuvarkuca.adapters.PlantListAdapter
+import ba.unsa.etf.rma.cuvarkuca.models.Biljka
+import ba.unsa.etf.rma.cuvarkuca.models.BotanicalFocus
+import ba.unsa.etf.rma.cuvarkuca.models.CulinaryFocus
+import ba.unsa.etf.rma.cuvarkuca.models.Focus
+import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
+import ba.unsa.etf.rma.cuvarkuca.models.MedicalFocus
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {

@@ -10,6 +10,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import ba.unsa.etf.rma.cuvarkuca.adapters.MultipleChoiceListAdapter
+import ba.unsa.etf.rma.cuvarkuca.adapters.SingleChoiceListAdapter
+import ba.unsa.etf.rma.cuvarkuca.adapters.UniqueItemsListAdapter
+import ba.unsa.etf.rma.cuvarkuca.models.Biljka
+import ba.unsa.etf.rma.cuvarkuca.models.KlimatskiTip
+import ba.unsa.etf.rma.cuvarkuca.models.MedicinskaKorist
+import ba.unsa.etf.rma.cuvarkuca.models.ProfilOkusaBiljke
+import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
 import com.google.android.material.snackbar.Snackbar
 
 class NovaBiljkaActivity : AppCompatActivity() {

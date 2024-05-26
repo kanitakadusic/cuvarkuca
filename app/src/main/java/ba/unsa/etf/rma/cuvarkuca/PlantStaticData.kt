@@ -1,5 +1,11 @@
 package ba.unsa.etf.rma.cuvarkuca
 
+import ba.unsa.etf.rma.cuvarkuca.models.Biljka
+import ba.unsa.etf.rma.cuvarkuca.models.KlimatskiTip
+import ba.unsa.etf.rma.cuvarkuca.models.MedicinskaKorist
+import ba.unsa.etf.rma.cuvarkuca.models.ProfilOkusaBiljke
+import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
+
 val biljke = listOf(
     Biljka(
         "Bosiljak (Ocimum basilicum)",

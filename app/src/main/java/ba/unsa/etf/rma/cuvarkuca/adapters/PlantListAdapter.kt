@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cuvarkuca
+package ba.unsa.etf.rma.cuvarkuca.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
+import ba.unsa.etf.rma.cuvarkuca.R
+import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 
 class PlantListAdapter (
     var items: List<Biljka>,
