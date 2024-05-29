@@ -72,6 +72,13 @@ object Utility {
         }
     }
 
+    fun getScientificName(
+        input: String
+    ): String? {
+        val regex = "\\((.*?)\\)".toRegex()
+        return regex.find(input)?.groupValues?.getOrNull(1)
+    }
+
     fun validatePlantNameForm(
         input: String
     ): Int? {

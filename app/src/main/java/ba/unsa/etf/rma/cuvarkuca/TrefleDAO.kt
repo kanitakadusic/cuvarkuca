@@ -32,11 +32,11 @@ object TrefleDAO {
     suspend fun fixData(
         plant: Biljka
     ): Biljka {
-        when (val searchResponse = PlantRepository.getSearchResponse(plant.naziv)) {
+        when (val searchResponse = PlantRepository.getSearchResponse(Utility.getScientificName(plant.naziv)!!)) {
             is GetSearchResponse -> {
                 if (searchResponse.results.isNotEmpty()) {
                     when (val plantResponse = PlantRepository.getPlantResponse(searchResponse.results[0].identifier)) {
-                        is GetPlantResponse -> return getFixedPlant(plant, plantResponse.plant)
+                        is GetPlantResponse -> return getFixedPlant(plant, plantResponse.plant, false)
                         else -> Log.e("TrefleDAO", "fixData -> not GetPlantResponse")
                     }
                 } else Log.i("TrefleDAO", "fixData -> searchResponse.results is empty")
@@ -48,7 +48,8 @@ object TrefleDAO {
 
     private fun getFixedPlant(
         plant: Biljka,
-        data: PlantResult
+        data: PlantResult,
+        setNameFromData: Boolean
     ): Biljka {
         var fixedWarning: String = plant.medicinskoUpozorenje
 
@@ -87,8 +88,13 @@ object TrefleDAO {
                 }
         }
 
+        val fixedName: String = if (!setNameFromData) plant.naziv else {
+            if (data.commonName != null) data.commonName + " (" + data.scientificName + ")"
+            else "(" + data.scientificName + ")"
+        }
+
         return Biljka(
-            data.scientificName,
+            fixedName,
             data.family,
             fixedWarning,
             plant.medicinskeKoristi,
@@ -119,7 +125,7 @@ object TrefleDAO {
             is GetSearchResponse -> {
                 for (result in filterResponse.results)
                     when (val plantResponse = PlantRepository.getPlantResponse(result.identifier)) {
-                        is GetPlantResponse -> plants.add(getFixedPlant(default, plantResponse.plant))
+                        is GetPlantResponse -> plants.add(getFixedPlant(default, plantResponse.plant, true))
                         else -> Log.e("TrefleDAO", "flowerColor -> not GetPlantResponse")
                     }
             } else -> Log.e("TrefleDAO", "flowerColor -> not GetSearchResponse")
