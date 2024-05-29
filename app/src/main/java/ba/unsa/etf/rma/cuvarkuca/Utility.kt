@@ -15,20 +15,29 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object Utility {
-    fun getAttrColor(context: Context, attr: Int): Int {
+
+    fun getAttrColor(
+        context: Context,
+        attr: Int
+    ): Int {
         val typedValue = TypedValue()
         context.theme.resolveAttribute(attr, typedValue, true)
         return typedValue.data
     }
 
-    fun setViewAvailability(view: View, available: Boolean) {
+    fun setViewAvailability(
+        view: View,
+        available: Boolean
+    ) {
         view.isFocusable = available
         view.isFocusableInTouchMode = available
         view.isClickable = available
         view.isEnabled = available
     }
 
-    fun adjustListViewHeight(listView: ListView) {
+    fun adjustListViewHeight(
+        listView: ListView
+    ) {
         val adapter = listView.adapter ?: return
         var itemHeight = 0
 
@@ -63,27 +72,43 @@ object Utility {
         }
     }
 
-    const val MIN_TEXT_LENGTH = 2
-    const val MAX_TEXT_LENGTH = 20
+    fun validatePlantNameForm(
+        input: String
+    ): Int? {
+        val regex = Regex("^[a-zA-ZčćđšžČĆĐŠŽ]+( [a-zA-ZčćđšžČĆĐŠŽ]+)* \\([a-zA-Z.]+( [a-zA-Z.]+)*\\)$")
+        if (input.isNotEmpty() && !regex.matches(input)) return R.string.invalid_name
+        return null
+    }
 
-    fun validateTextLength(context: Context, editText: EditText) {
+    const val MIN_INPUT_LENGTH = 2
+    const val MAX_INPUT_LENGTH = 40
+
+    fun validateInputLength(
+        input: String
+    ): Int? {
+        if (input.isNotEmpty() && input.length < MIN_INPUT_LENGTH) return R.string.too_short
+        else if (input.length > MAX_INPUT_LENGTH) return R.string.too_long
+        return null
+    }
+
+    fun setEditTextValidator(
+        context: Context,
+        editText: EditText,
+        validations: List<(String) -> Int?>
+    ) {
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_error_filled)
         icon?.setBounds(0, 0, icon.intrinsicWidth, icon.intrinsicHeight)
 
-        if (editText.text.length < MIN_TEXT_LENGTH) {
-            editText.setError(context.getString(R.string.too_short), icon)
-        } else if (editText.text.length > MAX_TEXT_LENGTH) {
-            editText.setError(context.getString(R.string.too_long), icon)
-        } else {
-            editText.error = null
-        }
-    }
-
-    fun setTextLengthValidator(context: Context, editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) { validateTextLength(context, editText) }
+
+            override fun afterTextChanged(s: Editable?) {
+                for (validation in validations)
+                    when (val stringResource = validation(editText.text.toString())) {
+                        is Int -> editText.setError(context.getString(stringResource), icon)
+                    }
+            }
         })
     }
 }

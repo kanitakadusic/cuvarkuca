@@ -60,15 +60,24 @@ class NovaBiljkaActivity : AppCompatActivity() {
         imageIV = findViewById(R.id.slikaIV)
 
         nameET = findViewById(R.id.nazivET)
-        Utility.setTextLengthValidator(this, nameET)
+        Utility.setEditTextValidator(this, nameET,
+            listOf(
+                { Utility.validateInputLength(it) },
+                { Utility.validatePlantNameForm(it) }
+            )
+        )
 
         familyET = findViewById(R.id.porodicaET)
-        Utility.setTextLengthValidator(this, familyET)
+        Utility.setEditTextValidator(this, familyET,
+            listOf { Utility.validateInputLength(it) })
 
         warningET = findViewById(R.id.medicinskoUpozorenjeET)
-        Utility.setTextLengthValidator(this, warningET)
+        Utility.setEditTextValidator(this, warningET,
+            listOf { Utility.validateInputLength(it) })
 
         dishET = findViewById(R.id.jeloET)
+        Utility.setEditTextValidator(this, dishET,
+            listOf { Utility.validateInputLength(it) })
 
         cameraB = findViewById(R.id.uslikajBiljkuBtn)
         cameraB.setOnClickListener { dispatchTakePictureIntent() }
@@ -113,10 +122,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
     }
 
     private fun onAddModifyDishButtonClicked() {
-        if (dishET.text.length == 1 || dishET.text.length > 20) {
-            Utility.validateTextLength(this, dishET)
-            return
-        }
+        if (dishET.text.isNotEmpty() && (dishET.text.length !in Utility.MIN_INPUT_LENGTH..Utility.MAX_INPUT_LENGTH)) return
 
         when (dishB.text.toString()) {
             getString(R.string.add_dish) -> {
@@ -137,9 +143,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
     }
 
     private fun onAddPlantButtonClicked() {
-        if (listOf(nameET, familyET, warningET).any {
-            it.text.length !in Utility.MIN_TEXT_LENGTH..Utility.MAX_TEXT_LENGTH
-        }) {
+        if (listOf(nameET, familyET, warningET).any { it.text.isEmpty() || it.error != null }) {
             Snackbar.make(findViewById(R.id.root), R.string.check_input_fields, Snackbar.LENGTH_LONG).show()
             return
         }
