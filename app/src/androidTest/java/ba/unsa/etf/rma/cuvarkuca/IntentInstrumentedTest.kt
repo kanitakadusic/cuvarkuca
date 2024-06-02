@@ -56,7 +56,7 @@ class IntentInstrumentedTest {
 
         val testBitmap: Bitmap = BitmapFactory.decodeResource(
             InstrumentationRegistry.getInstrumentation().targetContext.resources,
-            R.drawable.tulips
+            R.drawable.default_plant_image
         )
 
         val intent = Intent()

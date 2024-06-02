@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp">
+    android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imageBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="12dp"
+        android:layout_margin="12dp"
+        android:backgroundTint="?attr/backgroundColor"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/infoBox"
@@ -25,7 +25,6 @@
             android:id="@+id/slikaItem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/tulips"
             android:scaleType="centerCrop"
             android:importantForAccessibility="no" />
 
@@ -35,6 +34,8 @@
         android:id="@+id/infoBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginVertical="12dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintBottom_toBottomOf="parent"

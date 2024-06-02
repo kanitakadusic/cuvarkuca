@@ -23,6 +23,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class NovaBiljkaActivity : AppCompatActivity() {
+    private lateinit var trefle: TrefleDAO
+
     private lateinit var imageIV: ImageView
 
     private lateinit var cameraB: Button
@@ -56,6 +58,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
+
+        trefle = TrefleDAO(this)
 
         imageIV = findViewById(R.id.slikaIV)
 
@@ -166,7 +170,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val intent = Intent()
-            intent.putExtra("plant", TrefleDAO.fixData(plant))
+            intent.putExtra("plant", trefle.fixData(plant))
             setResult(Activity.RESULT_OK, intent)
             finish()
         }

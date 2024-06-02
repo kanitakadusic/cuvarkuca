@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private val focusContext = FocusContext(MedicalFocus)
     private var isFilteredByFlowerColor = false
 
+    private lateinit var trefle: TrefleDAO
+
     private lateinit var focusS: Spinner
     private lateinit var focusFSA: FocusSpinnerAdapter
 
@@ -57,6 +59,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        trefle = TrefleDAO(this)
 
         focusFSA = FocusSpinnerAdapter(
             this,
@@ -92,7 +96,11 @@ class MainActivity : AppCompatActivity() {
         searchB = findViewById(R.id.brzaPretraga)
         searchB.setOnClickListener { onQuickSearchButtonClicked() }
 
-        plantPLA = PlantListAdapter(plants, { plant -> onPlantClicked(plant) }, focusContext)
+        plantPLA = PlantListAdapter(
+            this,
+            focusContext,
+            plants
+        ) { plant -> onPlantClicked(plant) }
 
         plantRV = findViewById(R.id.biljkeRV)
         plantRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -148,7 +156,7 @@ class MainActivity : AppCompatActivity() {
             val scope = CoroutineScope(Job() + Dispatchers.Main)
             scope.launch {
                 inputET.setText(R.string.loading)
-                updatePlantList(TrefleDAO.getPlantsWithFlowerColor(color, input))
+                updatePlantList(trefle.getPlantsWithFlowerColor(color, input))
                 inputET.text.clear()
             }
         }

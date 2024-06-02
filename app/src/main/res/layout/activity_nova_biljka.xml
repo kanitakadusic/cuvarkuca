@@ -20,8 +20,9 @@
             android:layout_width="200dp"
             android:layout_height="0dp"
             android:layout_margin="12dp"
+            android:backgroundTint="?attr/backgroundColor"
             app:cardCornerRadius="100dp"
-            android:elevation="8dp"
+            app:cardElevation="6dp"
             app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintBottom_toTopOf="@id/nazivET"
@@ -33,7 +34,7 @@
                 android:id="@+id/slikaIV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/tulips"
+                android:src="@drawable/default_plant_image"
                 android:scaleType="centerCrop"
                 android:importantForAccessibility="no" />
 
@@ -46,7 +47,7 @@
             android:text="@string/camera"
             style="@style/ADD_button"
             android:backgroundTint="?attr/colorSurface"
-            android:elevation="4dp"
+            android:elevation="8dp"
             android:stateListAnimator="@null"
             app:layout_constraintBottom_toBottomOf="@id/pictureBox"
             app:layout_constraintStart_toEndOf="@id/pictureBox"

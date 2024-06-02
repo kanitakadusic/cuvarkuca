@@ -1,8 +1,11 @@
 package ba.unsa.etf.rma.cuvarkuca
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
@@ -11,10 +14,31 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
 
 object Utility {
+
+    suspend fun getBitmapFromUrl(
+        urlString: String?
+    ): Bitmap? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val connection = URL(urlString).openConnection() as HttpURLConnection
+                connection.doInput = true
+                connection.connect()
+
+                BitmapFactory.decodeStream(connection.inputStream)
+            } catch (e: Exception) {
+                Log.e("Utility", "getBitmapFromUrl")
+                null
+            }
+        }
+    }
 
     fun getAttrColor(
         context: Context,
@@ -62,7 +86,7 @@ object Utility {
         textView: TextView,
         newColor: Int
     ) {
-        val scope = CoroutineScope(Dispatchers.Main)
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
         val originalColor = textView.currentTextColor
 
         scope.launch {
@@ -70,13 +94,6 @@ object Utility {
             delay(1500)
             textView.setTextColor(originalColor)
         }
-    }
-
-    fun getScientificName(
-        input: String
-    ): String? {
-        val regex = "\\((.*?)\\)".toRegex()
-        return regex.find(input)?.groupValues?.getOrNull(1)
     }
 
     fun validatePlantNameForm(
