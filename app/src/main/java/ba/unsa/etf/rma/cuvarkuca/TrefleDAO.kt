@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.cuvarkuca
 
+// logovi su zakomentarisani zbog testova
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,17 +13,26 @@ import ba.unsa.etf.rma.cuvarkuca.services.GetPlantResponse
 import ba.unsa.etf.rma.cuvarkuca.services.GetSearchResponse
 import ba.unsa.etf.rma.cuvarkuca.services.PlantRepository
 
-class TrefleDAO(
-    private val context: Context
-) {
-    private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.default_plant_image)
+class TrefleDAO {
+
+    private lateinit var context: Context
+    private lateinit var defaultBitmap: Bitmap
+
+    fun setContext(
+        context: Context
+    ): TrefleDAO {
+        this.context = context
+        defaultBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.default_plant_image)
+
+        return this
+    }
 
     suspend fun getImage(
         plant: Biljka
     ): Bitmap {
         val scientificName: String? = plant.getScientificName()
         if (scientificName == null) {
-            Log.e("TrefleDAO", "getImage -> scientificName is null")
+            //Log.e("TrefleDAO", "getImage -> scientificName is null")
             return defaultBitmap
         }
 
@@ -31,11 +42,15 @@ class TrefleDAO(
                     if (searchResponse.results.isNotEmpty()) {
                         val bitmap: Bitmap? = Utility.getBitmapFromUrl(searchResponse.results[0].imageUrl)
                         if (bitmap != null) return bitmap
-                    } else Log.e("TrefleDAO", "getImage -> searchResponse.results is empty")
-                } else -> Log.e("TrefleDAO", "getImage -> not GetSearchResponse")
+                    } else {
+                        //Log.e("TrefleDAO", "getImage -> searchResponse.results is empty")
+                    }
+                } else -> {
+                    //Log.e("TrefleDAO", "getImage -> not GetSearchResponse")
+                }
             }
         } catch (e: Exception) {
-            Log.e("TrefleDAO", "getImage -> connection error")
+            //Log.e("TrefleDAO", "getImage -> connection error")
         }
 
         return defaultBitmap
@@ -46,7 +61,7 @@ class TrefleDAO(
     ): Biljka {
         val scientificName: String? = plant.getScientificName()
         if (scientificName == null) {
-            Log.e("TrefleDAO", "fixData -> scientificName is null")
+            //Log.e("TrefleDAO", "fixData -> scientificName is null")
             return plant
         }
 
@@ -57,14 +72,20 @@ class TrefleDAO(
                         when (val plantResponse = PlantRepository.getPlantResponse(searchResponse.results[0].identifier)) {
                             is GetPlantResponse -> {
                                 plant.fixWith(plantResponse.plant)
-                                Toast.makeText(context, "Plant fixed", Toast.LENGTH_SHORT).show()
-                            } else -> Log.e("TrefleDAO", "fixData -> not GetPlantResponse")
+                                //Toast.makeText(context, "Plant fixed", Toast.LENGTH_SHORT).show()
+                            } else -> {
+                                //Log.e("TrefleDAO", "fixData -> not GetPlantResponse")
+                            }
                         }
-                    } else Log.e("TrefleDAO", "fixData -> searchResponse.results is empty")
-                } else -> Log.e("TrefleDAO", "fixData -> not GetSearchResponse")
+                    } else {
+                        //Log.e("TrefleDAO", "fixData -> searchResponse.results is empty")
+                    }
+                } else -> {
+                    //Log.e("TrefleDAO", "fixData -> not GetSearchResponse")
+                }
             }
         } catch (e: Exception) {
-            Log.e("TrefleDAO", "fixData -> connection error")
+            //Log.e("TrefleDAO", "fixData -> connection error")
         }
 
         return plant
@@ -95,12 +116,16 @@ class TrefleDAO(
 
                                 default.fixWith(plantResponse.plant, true)
                                 plants.add(default)
-                            } else -> Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetPlantResponse")
+                            } else -> {
+                                //Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetPlantResponse")
+                            }
                         }
-                } else -> Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetSearchResponse")
+                } else -> {
+                    //Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetSearchResponse")
+                }
             }
         } catch (e: Exception) {
-            Log.e("TrefleDAO", "getPlantsWithFlowerColor -> connection error")
+            //Log.e("TrefleDAO", "getPlantsWithFlowerColor -> connection error")
         }
 
         return plants

@@ -26,6 +26,8 @@ class PlantListAdapter (
     private val onItemClicked: (plant: Biljka) -> Unit
 ) : RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
 
+    private val trefle = TrefleDAO().setContext(context)
+
     private var focusHasChanged: Boolean = false
 
     fun setFocusContext(
@@ -121,7 +123,7 @@ class PlantListAdapter (
             scope.launch {
                 val bitmap = bitmaps.getOrPut(plant.naziv) {
                     Log.i("PlantViewHolder", "getImage -> " + plant.naziv)
-                    TrefleDAO(context).getImage(plant)
+                    trefle.getImage(plant)
                 }
 
                 Glide.with(context)

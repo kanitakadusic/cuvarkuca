@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private val focusContext = FocusContext(MedicalFocus)
     private var isFilteredByFlowerColor = false
 
+    private val trefle = TrefleDAO()
+
     private lateinit var focusS: Spinner
     private lateinit var focusFSA: FocusSpinnerAdapter
 
@@ -57,6 +59,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        trefle.setContext(this)
 
         focusFSA = FocusSpinnerAdapter(
             this,
@@ -145,7 +149,6 @@ class MainActivity : AppCompatActivity() {
             isFilteredByFlowerColor = true
 
             val scope = CoroutineScope(Job() + Dispatchers.Main)
-            val trefle = TrefleDAO(this)
 
             scope.launch {
                 inputET.setText(R.string.loading)
