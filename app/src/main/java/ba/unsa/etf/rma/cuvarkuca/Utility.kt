@@ -34,7 +34,7 @@ object Utility {
 
                 BitmapFactory.decodeStream(connection.inputStream)
             } catch (e: Exception) {
-                Log.e("Utility", "getBitmapFromUrl")
+                Log.e("Utility", "getBitmapFromUrl -> null")
                 null
             }
         }

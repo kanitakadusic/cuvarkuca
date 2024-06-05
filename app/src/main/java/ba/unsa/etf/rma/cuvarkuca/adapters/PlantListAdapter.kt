@@ -1,6 +1,5 @@
 package ba.unsa.etf.rma.cuvarkuca.adapters
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,7 +19,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class PlantListAdapter (
-    private val context: Context,
     private var focusContext: FocusContext,
     private var items: MutableList<Biljka>,
     private val onItemClicked: (plant: Biljka) -> Unit
@@ -37,7 +35,7 @@ class PlantListAdapter (
         focusHasChanged = false
     }
 
-    private val bitmaps: MutableMap<String, Bitmap> = mutableMapOf()
+    private val bitmaps: MutableMap<String, Bitmap?> = mutableMapOf()
 
     fun getItems() = items
 
@@ -121,11 +119,14 @@ class PlantListAdapter (
             scope.launch {
                 val bitmap = bitmaps.getOrPut(plant.naziv) {
                     Log.i("PlantViewHolder", "getImage -> " + plant.naziv)
-                    TrefleDAO(context).getImage(plant)
+                    TrefleDAO.getImage(plant)
                 }
 
-                Glide.with(context)
+                Glide.with(image.context)
                     .load(bitmap)
+                    .placeholder(R.drawable.default_plant_image)
+                    .error(R.drawable.default_plant_image)
+                    .fallback(R.drawable.default_plant_image)
                     .centerCrop()
                     .into(image)
             }

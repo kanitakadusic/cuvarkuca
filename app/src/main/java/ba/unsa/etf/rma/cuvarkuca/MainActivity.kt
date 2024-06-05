@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         searchB.setOnClickListener { onQuickSearchButtonClicked() }
 
         plantPLA = PlantListAdapter(
-            this,
             focusContext,
             plants
         ) { plant -> onPlantClicked(plant) }
@@ -145,11 +144,10 @@ class MainActivity : AppCompatActivity() {
             isFilteredByFlowerColor = true
 
             val scope = CoroutineScope(Job() + Dispatchers.Main)
-            val trefle = TrefleDAO(this)
 
             scope.launch {
                 inputET.setText(R.string.loading)
-                plantPLA.setNewItems(trefle.getPlantsWithFlowerColor(color, input))
+                plantPLA.setNewItems(TrefleDAO.getPlantsWithFlowerColor(color, input))
                 inputET.text.clear()
             }
         }
