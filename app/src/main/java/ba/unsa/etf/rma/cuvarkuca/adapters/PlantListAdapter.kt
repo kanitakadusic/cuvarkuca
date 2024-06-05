@@ -1,16 +1,18 @@
 package ba.unsa.etf.rma.cuvarkuca.adapters
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import ba.unsa.etf.rma.cuvarkuca.R
 import ba.unsa.etf.rma.cuvarkuca.TrefleDAO
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
+import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,17 +22,45 @@ import kotlinx.coroutines.launch
 class PlantListAdapter (
     private val context: Context,
     private var focusContext: FocusContext,
-    var items: List<Biljka>,
+    private var items: MutableList<Biljka>,
     private val onItemClicked: (plant: Biljka) -> Unit
 ) : RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
 
     private var focusHasChanged: Boolean = false
 
-    fun setFocusContext(focusContext: FocusContext) {
+    fun setFocusContext(
+        focusContext: FocusContext
+    ) {
         this.focusContext = focusContext
         focusHasChanged = true
         notifyDataSetChanged()
         focusHasChanged = false
+    }
+
+    private val bitmaps: MutableMap<String, Bitmap> = mutableMapOf()
+
+    fun getItems() = items
+
+    fun setNewItems(
+        newPlants: List<Biljka>
+    ) {
+        items = newPlants.toMutableList()
+        bitmaps.clear()
+        notifyDataSetChanged()
+    }
+
+    fun setNewItemsWithoutRefresh(
+        newPlants: List<Biljka>
+    ) {
+        items = newPlants.toMutableList()
+        bitmaps.clear()
+    }
+
+    fun setFilteredItems(
+        filteredPlants: List<Biljka>
+    ) {
+        items = filteredPlants.toMutableList()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = items.size
@@ -62,8 +92,6 @@ class PlantListAdapter (
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
 
-        private val trefle = TrefleDAO(context)
-
         private val image: ImageView = itemView.findViewById(R.id.slikaItem)
         private val title: TextView = itemView.findViewById(R.id.nazivItem)
 
@@ -89,9 +117,15 @@ class PlantListAdapter (
             plant: Biljka
         ) {
             val scope = CoroutineScope(Job() + Dispatchers.Main)
+
             scope.launch {
+                val bitmap = bitmaps.getOrPut(plant.naziv) {
+                    Log.i("PlantViewHolder", "getImage -> " + plant.naziv)
+                    TrefleDAO(context).getImage(plant)
+                }
+
                 Glide.with(context)
-                    .load(trefle.getImage(plant))
+                    .load(bitmap)
                     .centerCrop()
                     .into(image)
             }

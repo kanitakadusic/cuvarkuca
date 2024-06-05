@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
     private val focusContext = FocusContext(MedicalFocus)
     private var isFilteredByFlowerColor = false
 
-    private lateinit var trefle: TrefleDAO
-
     private lateinit var focusS: Spinner
     private lateinit var focusFSA: FocusSpinnerAdapter
 
@@ -59,8 +57,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        trefle = TrefleDAO(this)
 
         focusFSA = FocusSpinnerAdapter(
             this,
@@ -125,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 manageAppearanceOfInputAndColorFilters()
 
                 if (isFilteredByFlowerColor) {
-                    plantPLA.items = plants
+                    plantPLA.setNewItemsWithoutRefresh(plants)
                     isFilteredByFlowerColor = false
                 }
 
@@ -137,13 +133,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onResetButtonClicked() {
-        updatePlantList(plants)
+        plantPLA.setNewItems(plants)
         isFilteredByFlowerColor = false
-    }
-
-    private fun updatePlantList(plants: List<Biljka>) {
-        plantPLA.items = plants
-        plantPLA.notifyDataSetChanged()
     }
 
     private fun onQuickSearchButtonClicked() {
@@ -154,9 +145,11 @@ class MainActivity : AppCompatActivity() {
             isFilteredByFlowerColor = true
 
             val scope = CoroutineScope(Job() + Dispatchers.Main)
+            val trefle = TrefleDAO(this)
+
             scope.launch {
                 inputET.setText(R.string.loading)
-                updatePlantList(trefle.getPlantsWithFlowerColor(color, input))
+                plantPLA.setNewItems(trefle.getPlantsWithFlowerColor(color, input))
                 inputET.text.clear()
             }
         }
@@ -165,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     private fun onPlantClicked(plant: Biljka) {
         if (isFilteredByFlowerColor) return
 
-        updatePlantList(plantPLA.items.filter {
+        plantPLA.setFilteredItems(plantPLA.getItems().filter {
             focusContext.getCurrentFocus().areSimilarPlants(it, plant)
         })
     }
@@ -213,7 +206,7 @@ class MainActivity : AppCompatActivity() {
             val plant: Biljka = data?.getParcelableExtra("plant")!!
 
             plants.add(plant)
-            resetIB.performClick()
+            onResetButtonClicked()
         }
     }
 }
