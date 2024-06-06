@@ -3,7 +3,7 @@ package ba.unsa.etf.rma.cuvarkuca.services
 import com.google.gson.annotations.SerializedName
 
 data class PlantResult(
-    @SerializedName("slug") val identifier: String,
+    @SerializedName("slug") val slug: String,
     @SerializedName("image_url") val imageUrl: String?,
     @SerializedName("common_name") val commonName: String?,
     @SerializedName("scientific_name") val scientificName: String,

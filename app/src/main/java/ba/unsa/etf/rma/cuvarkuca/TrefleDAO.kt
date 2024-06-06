@@ -3,7 +3,6 @@ package ba.unsa.etf.rma.cuvarkuca
 import android.graphics.Bitmap
 import android.util.Log
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
-import ba.unsa.etf.rma.cuvarkuca.models.ProfilOkusaBiljke
 import ba.unsa.etf.rma.cuvarkuca.services.GetPlantResponse
 import ba.unsa.etf.rma.cuvarkuca.services.GetSearchResponse
 import ba.unsa.etf.rma.cuvarkuca.services.PlantRepository
@@ -43,9 +42,11 @@ object TrefleDAO {
                 when (val searchResponse = PlantRepository.getSearchResponse(scientificName)) {
                     is GetSearchResponse -> {
                         if (searchResponse.results.isNotEmpty()) {
-                            when (val plantResponse = PlantRepository.getPlantResponse(searchResponse.results[0].identifier)) {
+                            when (val plantResponse = PlantRepository.getPlantResponse(searchResponse.results[0].slug)) {
                                 is GetPlantResponse -> {
                                     plant.fixWith(plantResponse.plant)
+                                    plant.onlineChecked = true
+
                                     Log.i("TrefleDAO", "fixData -> plant fixed")
                                 } else -> Log.e("TrefleDAO", "fixData -> not GetPlantResponse")
                             }
@@ -70,20 +71,13 @@ object TrefleDAO {
             when (val filterResponse = PlantRepository.getFilterResponse(color, input)) {
                 is GetSearchResponse -> {
                     for (result in filterResponse.results)
-                        when (val plantResponse = PlantRepository.getPlantResponse(result.identifier)) {
+                        when (val plantResponse = PlantRepository.getPlantResponse(result.slug)) {
                             is GetPlantResponse -> {
-                                val default = Biljka(
-                                    "",
-                                    "",
-                                    "",
-                                    listOf(),
-                                    ProfilOkusaBiljke.BEZUKUSNO,
-                                    listOf(),
-                                    listOf(),
-                                    listOf()
-                                )
+                                val default = Biljka()
 
                                 default.fixWith(plantResponse.plant, true)
+                                default.onlineChecked = true
+
                                 plants.add(default)
                             } else -> Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetPlantResponse")
                         }

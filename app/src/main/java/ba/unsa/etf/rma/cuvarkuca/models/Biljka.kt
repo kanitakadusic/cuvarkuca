@@ -6,14 +6,17 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Biljka (
-    var naziv: String,
-    var porodica: String,
-    var medicinskoUpozorenje: String,
-    var medicinskeKoristi: List<MedicinskaKorist>,
-    var profilOkusa: ProfilOkusaBiljke,
-    var jela: List<String>,
-    var klimatskiTipovi: List<KlimatskiTip>,
-    var zemljisniTipovi: List<Zemljiste>
+    var slug: String = "no-slug",
+    var onlineChecked: Boolean = false,
+
+    var naziv: String = "",
+    var porodica: String = "",
+    var medicinskoUpozorenje: String = "",
+    var medicinskeKoristi: List<MedicinskaKorist> = listOf(),
+    var profilOkusa: ProfilOkusaBiljke = ProfilOkusaBiljke.BEZUKUSNO,
+    var jela: List<String> = listOf(),
+    var klimatskiTipovi: List<KlimatskiTip> = listOf(),
+    var zemljisniTipovi: List<Zemljiste> = listOf()
 ) : Parcelable {
 
     fun getScientificName(): String? {
@@ -25,6 +28,8 @@ data class Biljka (
         reference: PlantResult,
         fixName: Boolean = false
     ) {
+        slug = reference.slug
+
         if (fixName) {
             naziv =
                 if (reference.commonName != null) reference.commonName + " (" + reference.scientificName + ")"

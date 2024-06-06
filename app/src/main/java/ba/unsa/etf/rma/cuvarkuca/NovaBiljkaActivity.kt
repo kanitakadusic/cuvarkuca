@@ -154,14 +154,14 @@ class NovaBiljkaActivity : AppCompatActivity() {
         }
 
         val plant = Biljka(
-            nameET.text.toString(),
-            familyET.text.toString(),
-            warningET.text.toString(),
-            benefitMCLA.getSelectedItems(),
-            tasteSCLA.getSelectedItem(),
-            dishUILA.get(),
-            climateMCLA.getSelectedItems(),
-            soilMCLA.getSelectedItems()
+            naziv = nameET.text.toString(),
+            porodica = familyET.text.toString(),
+            medicinskoUpozorenje = warningET.text.toString(),
+            medicinskeKoristi = benefitMCLA.getSelectedItems(),
+            profilOkusa = tasteSCLA.getSelectedItem(),
+            jela = dishUILA.get(),
+            klimatskiTipovi = climateMCLA.getSelectedItems(),
+            zemljisniTipovi = soilMCLA.getSelectedItems()
         )
 
         lifecycleScope.launch {
