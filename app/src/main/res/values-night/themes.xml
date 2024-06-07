@@ -20,7 +20,7 @@
 
         <item name="colorError">@color/red_a200</item>
 
-        <item name="colorOutline">@color/grey_850</item>
+        <item name="colorOutline">@color/grey_800</item>
         <item name="colorOutlineVariant">@color/grey_700</item>
 
         <item name="android:fontFamily">@font/roboto_regular</item>

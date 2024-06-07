@@ -48,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/MAIN_plant_name"
+            android:drawablePadding="12dp"
             app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintBottom_toTopOf="@+id/focusBox"
             app:layout_constraintEnd_toEndOf="parent"

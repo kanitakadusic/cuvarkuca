@@ -142,6 +142,8 @@ class PlantListAdapter (
             }
 
             title.text = plant.naziv
+            title.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                if (plant.onlineChecked) R.drawable.ic_verified else 0, 0)
 
             caution.text = plant.medicinskoUpozorenje
             val benefitList = plant.medicinskeKoristi
@@ -154,10 +156,14 @@ class PlantListAdapter (
                 dishes[i].text = dishList[i]
 
             family.text = plant.porodica
-            if (plant.klimatskiTipovi.isNotEmpty())
+            if (plant.klimatskiTipovi.isNotEmpty()) {
                 climate.text = plant.klimatskiTipovi[0].description
-            if (plant.zemljisniTipovi.isNotEmpty())
+                climate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dot, 0, 0, 0)
+            }
+            if (plant.zemljisniTipovi.isNotEmpty()) {
                 soil.text = plant.zemljisniTipovi[0].description
+                soil.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dot, 0, 0, 0)
+            }
         }
     }
 }

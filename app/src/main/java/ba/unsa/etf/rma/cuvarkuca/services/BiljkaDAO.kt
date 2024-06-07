@@ -15,8 +15,8 @@ interface BiljkaDAO {
     ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val database = BiljkaDatabase.getInstance()!!
-                plant.id = database.roomDao().insertPlant(plant)
+                val room = BiljkaDatabase.getInstance()!!
+                plant.id = room.roomDao().insertPlant(plant)
 
                 Log.i("*_savePlant", "Plant saved")
                 true
@@ -32,15 +32,15 @@ interface BiljkaDAO {
             var fixedCounter = 0
 
             try {
-                val database = BiljkaDatabase.getInstance()!!
-                val offlinePlants = database.roomDao().readOfflinePlants()
+                val room = BiljkaDatabase.getInstance()!!
+                val offlinePlants = room.roomDao().readOfflinePlants()
 
                 for (plant in offlinePlants) {
                     val fixedPlant = TrefleDAO.fixData(plant)
 
                     if (fixedPlant != plant) {
                         fixedCounter++
-                        database.roomDao().updatePlant(fixedPlant)
+                        room.roomDao().updatePlant(fixedPlant)
                     }
                 }
 
@@ -59,8 +59,8 @@ interface BiljkaDAO {
     ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val database = BiljkaDatabase.getInstance()!!
-                database.roomDao().insertPlantBitmap(
+                val room = BiljkaDatabase.getInstance()!!
+                room.roomDao().insertPlantBitmap(
                     BiljkaBitmap(
                         bitmap = bitmap,
                         plantId = id
@@ -79,10 +79,10 @@ interface BiljkaDAO {
     suspend fun getAllBiljkas(): List<Biljka> {
         return withContext(Dispatchers.IO) {
             try {
-                val database = BiljkaDatabase.getInstance()!!
+                val room = BiljkaDatabase.getInstance()!!
 
                 Log.i("*_getAllPlants", "All plants fetched")
-                database.roomDao().readAllPlants()
+                room.roomDao().readAllPlants()
             } catch (e: Exception) {
                 Log.e("*_getAllPlants", e.message.toString())
                 listOf()
@@ -93,9 +93,9 @@ interface BiljkaDAO {
     suspend fun clearData() {
         withContext(Dispatchers.IO) {
             try {
-                val database = BiljkaDatabase.getInstance()!!
-                database.roomDao().deleteAllPlantBitmaps()
-                database.roomDao().deleteAllPlants()
+                val room = BiljkaDatabase.getInstance()!!
+                room.roomDao().deleteAllPlantBitmaps()
+                room.roomDao().deleteAllPlants()
 
                 Log.i("*_clearData", "Data cleared")
             } catch (e: Exception) {

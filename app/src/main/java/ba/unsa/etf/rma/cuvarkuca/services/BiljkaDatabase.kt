@@ -18,7 +18,9 @@ abstract class BiljkaDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: BiljkaDatabase? = null
 
-        private fun buildRoomDataBase(context: Context): BiljkaDatabase {
+        private fun buildRoomDataBase(
+            context: Context
+        ): BiljkaDatabase {
             return Room
                 .databaseBuilder(
                     context.applicationContext,
@@ -30,7 +32,7 @@ abstract class BiljkaDatabase : RoomDatabase() {
 
         fun createInstance(context: Context) {
             if (INSTANCE == null)
-                synchronized(BiljkaDatabase::class) {
+                synchronized (BiljkaDatabase::class) {
                     INSTANCE = buildRoomDataBase(context)
                 }
         }
