@@ -2,16 +2,15 @@ package ba.unsa.etf.rma.cuvarkuca.services
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.room.TypeConverter
+import ba.unsa.etf.rma.cuvarkuca.Utility
 import ba.unsa.etf.rma.cuvarkuca.models.KlimatskiTip
 import ba.unsa.etf.rma.cuvarkuca.models.MedicinskaKorist
 import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.nio.ByteBuffer
-import android.util.Base64
-import ba.unsa.etf.rma.cuvarkuca.Utility
-import java.io.ByteArrayOutputStream
 
 class Converters {
     @TypeConverter

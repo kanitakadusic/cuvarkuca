@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.cuvarkuca
 
 import android.graphics.Bitmap
+import android.util.Log
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 import ba.unsa.etf.rma.cuvarkuca.services.GetPlantResponse
 import ba.unsa.etf.rma.cuvarkuca.services.GetSearchResponse
@@ -40,6 +41,7 @@ object TrefleDAO {
                             is GetPlantResponse -> {
                                 plant.fixWith(plantResponse.plant)
                                 plant.onlineChecked = true
+                                Log.i("*_fixData", "Plant fixed")
                             }
                         }
                     }

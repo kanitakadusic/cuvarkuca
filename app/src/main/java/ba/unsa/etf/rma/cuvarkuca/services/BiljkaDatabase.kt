@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 
-@Database(entities = [Biljka::class, BiljkaBitmap::class], version = 5)
+@Database(entities = [Biljka::class, BiljkaBitmap::class], version = 8)
 @TypeConverters(Converters::class)
 abstract class BiljkaDatabase : RoomDatabase() {
 

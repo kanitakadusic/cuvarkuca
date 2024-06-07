@@ -9,7 +9,7 @@ import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 @Dao
 interface RoomDao {
     @Insert
-    suspend fun insertPlant(plant: Biljka)
+    suspend fun insertPlant(plant: Biljka): Long
 
     @Query("SELECT * FROM biljka")
     suspend fun readAllPlants(): List<Biljka>
@@ -24,7 +24,7 @@ interface RoomDao {
     suspend fun deleteAllPlants()
 
     @Insert
-    suspend fun insertPlantBitmap(plantBitmap: BiljkaBitmap)
+    suspend fun insertPlantBitmap(plantBitmap: BiljkaBitmap): Long
 
     @Query("DELETE FROM biljkabitmap")
     suspend fun deleteAllPlantBitmaps()

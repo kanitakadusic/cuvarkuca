@@ -12,14 +12,14 @@ import ba.unsa.etf.rma.cuvarkuca.models.Biljka
     foreignKeys = [
         ForeignKey(
             entity = Biljka::class,
-            parentColumns = ["slug"],
-            childColumns = ["plant_slug"],
+            parentColumns = ["id"],
+            childColumns = ["plant_id"],
             onDelete = ForeignKey.RESTRICT
         )
     ],
     indices = [
         Index(
-            value = ["plant_slug"],
+            value = ["plant_id"],
             unique = true
         )
     ]
@@ -28,5 +28,5 @@ data class BiljkaBitmap(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
 
     @ColumnInfo(name = "bitmap") var bitmap: Bitmap,
-    @ColumnInfo(name = "plant_slug") var plantSlug: String
+    @ColumnInfo(name = "plant_id") var plantId: Long
 )

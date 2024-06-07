@@ -16,7 +16,9 @@ interface BiljkaDAO {
         return withContext(Dispatchers.IO) {
             try {
                 val database = BiljkaDatabase.getInstance()!!
-                database.roomDao().insertPlant(plant)
+                plant.id = database.roomDao().insertPlant(plant)
+
+                Log.i("*_savePlant", "Plant saved")
                 true
             } catch (e: Exception) {
                 Log.e("*_savePlant", e.message.toString())
@@ -41,6 +43,8 @@ interface BiljkaDAO {
                         database.roomDao().updatePlant(fixedPlant)
                     }
                 }
+
+                Log.i("*_fixOfflinePlants", "Offline plants fixed")
             } catch (e: Exception) {
                 Log.e("*_fixOfflinePlants", e.message.toString())
             }
@@ -50,7 +54,7 @@ interface BiljkaDAO {
     }
 
     suspend fun addImage(
-        slug: String,
+        id: Long,
         bitmap: Bitmap
     ): Boolean {
         return withContext(Dispatchers.IO) {
@@ -59,9 +63,11 @@ interface BiljkaDAO {
                 database.roomDao().insertPlantBitmap(
                     BiljkaBitmap(
                         bitmap = bitmap,
-                        plantSlug = slug
+                        plantId = id
                     )
                 )
+
+                Log.i("*_saveBitmap", "Bitmap saved")
                 true
             } catch (e: Exception) {
                 Log.e("*_saveBitmap", e.message.toString())
@@ -74,6 +80,8 @@ interface BiljkaDAO {
         return withContext(Dispatchers.IO) {
             try {
                 val database = BiljkaDatabase.getInstance()!!
+
+                Log.i("*_getAllPlants", "All plants fetched")
                 database.roomDao().readAllPlants()
             } catch (e: Exception) {
                 Log.e("*_getAllPlants", e.message.toString())
@@ -88,6 +96,8 @@ interface BiljkaDAO {
                 val database = BiljkaDatabase.getInstance()!!
                 database.roomDao().deleteAllPlantBitmaps()
                 database.roomDao().deleteAllPlants()
+
+                Log.i("*_clearData", "Data cleared")
             } catch (e: Exception) {
                 Log.e("*_clearData", e.message.toString())
             }

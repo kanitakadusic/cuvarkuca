@@ -19,6 +19,7 @@ import ba.unsa.etf.rma.cuvarkuca.models.KlimatskiTip
 import ba.unsa.etf.rma.cuvarkuca.models.MedicinskaKorist
 import ba.unsa.etf.rma.cuvarkuca.models.ProfilOkusaBiljke
 import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
+import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -165,8 +166,13 @@ class NovaBiljkaActivity : AppCompatActivity() {
         )
 
         lifecycleScope.launch {
+            val fixedPlant = TrefleDAO.fixData(plant)
+
+            val room = BiljkaDatabase.getInstance()
+            room?.plantDao()?.saveBiljka(fixedPlant)
+
             val intent = Intent()
-            intent.putExtra("plant", TrefleDAO.fixData(plant))
+            intent.putExtra("plant", fixedPlant)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }

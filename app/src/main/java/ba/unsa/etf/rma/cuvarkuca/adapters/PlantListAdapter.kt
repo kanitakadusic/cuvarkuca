@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.cuvarkuca.adapters
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import ba.unsa.etf.rma.cuvarkuca.R
 import ba.unsa.etf.rma.cuvarkuca.TrefleDAO
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
+import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +37,7 @@ class PlantListAdapter (
         focusHasChanged = false
     }
 
-    private val bitmaps: MutableMap<String, Bitmap?> = mutableMapOf()
+    private val bitmaps: MutableMap<String, Bitmap> = mutableMapOf()
 
     fun getItems() = items
 
@@ -118,8 +120,16 @@ class PlantListAdapter (
 
             scope.launch {
                 val bitmap = bitmaps.getOrPut(plant.naziv) {
-                    Log.i("PlantViewHolder", "getImage -> " + plant.naziv)
-                    TrefleDAO.getImage(plant)
+                    val trefleBitmap = TrefleDAO.getImage(plant)
+                    Log.i("*_bind", "Image fetched: " + plant.naziv)
+
+                    if (trefleBitmap != null && plant.id != 0L) {
+                        val room = BiljkaDatabase.getInstance()
+                        room?.plantDao()?.addImage(plant.id, trefleBitmap)
+                    }
+
+                    trefleBitmap ?: BitmapFactory
+                        .decodeResource(image.context.resources, R.drawable.default_plant_image)
                 }
 
                 Glide.with(image.context)

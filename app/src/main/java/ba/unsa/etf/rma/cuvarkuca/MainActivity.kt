@@ -22,6 +22,7 @@ import ba.unsa.etf.rma.cuvarkuca.models.CulinaryFocus
 import ba.unsa.etf.rma.cuvarkuca.models.Focus
 import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import ba.unsa.etf.rma.cuvarkuca.models.MedicalFocus
+import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var plantRV: RecyclerView
     private lateinit var plantPLA: PlantListAdapter
-    private val plants: MutableList<Biljka> = biljke.toMutableList()
+    private val plants: MutableList<Biljka> = mutableListOf()
 
     private lateinit var addFAB: FloatingActionButton
 
@@ -105,6 +106,15 @@ class MainActivity : AppCompatActivity() {
         addFAB.setOnClickListener { onAddPlantButtonClicked() }
 
         manageAppearanceOfInputAndColorFilters()
+
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        BiljkaDatabase.createInstance(this)
+
+        scope.launch {
+            val room = BiljkaDatabase.getInstance()
+            plants.addAll(room!!.plantDao().getAllBiljkas())
+            plantPLA.setNewItems(plants)
+        }
     }
 
     private fun onFocusSelect(): OnItemSelectedListener {
