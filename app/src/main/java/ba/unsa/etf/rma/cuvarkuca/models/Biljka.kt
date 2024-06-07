@@ -1,22 +1,36 @@
 package ba.unsa.etf.rma.cuvarkuca.models
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import ba.unsa.etf.rma.cuvarkuca.services.PlantResult
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(
+    indices = [
+        Index(
+            value = ["slug"],
+            unique = true
+        )
+    ]
+)
 data class Biljka (
-    var slug: String = "no-slug",
-    var onlineChecked: Boolean = false,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
 
-    var naziv: String = "",
-    var porodica: String = "",
-    var medicinskoUpozorenje: String = "",
-    var medicinskeKoristi: List<MedicinskaKorist> = listOf(),
-    var profilOkusa: ProfilOkusaBiljke = ProfilOkusaBiljke.BEZUKUSNO,
-    var jela: List<String> = listOf(),
-    var klimatskiTipovi: List<KlimatskiTip> = listOf(),
-    var zemljisniTipovi: List<Zemljiste> = listOf()
+    @ColumnInfo(name = "slug") var slug: String? = null,
+    @ColumnInfo(name = "fixed") var onlineChecked: Boolean = false,
+
+    @ColumnInfo(name = "name") var naziv: String = "",
+    @ColumnInfo(name = "family") var porodica: String = "",
+    @ColumnInfo(name = "warning") var medicinskoUpozorenje: String = "",
+    @ColumnInfo(name = "benefits") var medicinskeKoristi: List<MedicinskaKorist> = listOf(),
+    @ColumnInfo(name = "taste") var profilOkusa: ProfilOkusaBiljke = ProfilOkusaBiljke.BEZUKUSNO,
+    @ColumnInfo(name = "dishes") var jela: List<String> = listOf(),
+    @ColumnInfo(name = "climates") var klimatskiTipovi: List<KlimatskiTip> = listOf(),
+    @ColumnInfo(name = "soils") var zemljisniTipovi: List<Zemljiste> = listOf()
 ) : Parcelable {
 
     fun getScientificName(): String? {

@@ -18,10 +18,34 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
 object Utility {
+
+    fun cropBitmapTo11Ratio(
+        bitmap: Bitmap
+    ): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        val cropSize = if (width >= height) height else width
+        val cropX = (width - cropSize) / 2
+        val cropY = (height - cropSize) / 2
+
+        return Bitmap.createBitmap(bitmap, cropX, cropY, cropSize, cropSize)
+    }
+
+    fun compressBitmap(
+        bitmap: Bitmap,
+        compressionQuality: Int = 80
+    ): Bitmap {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, outputStream)
+
+        return BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.size())
+    }
 
     suspend fun getBitmapFromUrl(
         urlString: String?
@@ -34,7 +58,7 @@ object Utility {
 
                 BitmapFactory.decodeStream(connection.inputStream)
             } catch (e: Exception) {
-                Log.e("Utility", "getBitmapFromUrl -> null")
+                Log.e("*_getBitmapFromUrl", e.message.toString())
                 null
             }
         }

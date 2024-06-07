@@ -1,11 +1,10 @@
 package ba.unsa.etf.rma.cuvarkuca
 
 import android.graphics.Bitmap
-import android.util.Log
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 import ba.unsa.etf.rma.cuvarkuca.services.GetPlantResponse
 import ba.unsa.etf.rma.cuvarkuca.services.GetSearchResponse
-import ba.unsa.etf.rma.cuvarkuca.services.PlantRepository
+import ba.unsa.etf.rma.cuvarkuca.services.TrefleRepository
 
 object TrefleDAO {
 
@@ -15,19 +14,15 @@ object TrefleDAO {
         val scientificName: String? = plant.getScientificName()
 
         if (scientificName != null) {
-            try {
-                when (val searchResponse = PlantRepository.getSearchResponse(scientificName)) {
-                    is GetSearchResponse -> {
-                        if (searchResponse.results.isNotEmpty()) {
-                            val bitmap: Bitmap? = Utility.getBitmapFromUrl(searchResponse.results[0].imageUrl)
-                            if (bitmap != null) return bitmap
-                        } else Log.e("TrefleDAO", "getImage -> searchResponse.results is empty")
-                    } else -> Log.e("TrefleDAO", "getImage -> not GetSearchResponse")
+            when (val searchResponse = TrefleRepository.getSearchResponse(scientificName)) {
+                is GetSearchResponse -> {
+                    if (searchResponse.results.isNotEmpty()) {
+                        val bitmap: Bitmap? = Utility.getBitmapFromUrl(searchResponse.results[0].imageUrl)
+                        if (bitmap != null) return bitmap
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e("TrefleDAO", "getImage -> connection error")
             }
-        } else Log.e("TrefleDAO", "getImage -> scientificName is null")
+        }
 
         return null
     }
@@ -38,25 +33,19 @@ object TrefleDAO {
         val scientificName: String? = plant.getScientificName()
 
         if (scientificName != null) {
-            try {
-                when (val searchResponse = PlantRepository.getSearchResponse(scientificName)) {
-                    is GetSearchResponse -> {
-                        if (searchResponse.results.isNotEmpty()) {
-                            when (val plantResponse = PlantRepository.getPlantResponse(searchResponse.results[0].slug)) {
-                                is GetPlantResponse -> {
-                                    plant.fixWith(plantResponse.plant)
-                                    plant.onlineChecked = true
-
-                                    Log.i("TrefleDAO", "fixData -> plant fixed")
-                                } else -> Log.e("TrefleDAO", "fixData -> not GetPlantResponse")
+            when (val searchResponse = TrefleRepository.getSearchResponse(scientificName)) {
+                is GetSearchResponse -> {
+                    if (searchResponse.results.isNotEmpty()) {
+                        when (val plantResponse = TrefleRepository.getPlantResponse(searchResponse.results[0].slug)) {
+                            is GetPlantResponse -> {
+                                plant.fixWith(plantResponse.plant)
+                                plant.onlineChecked = true
                             }
-                        } else Log.e("TrefleDAO", "fixData -> searchResponse.results is empty")
-                    } else -> Log.e("TrefleDAO", "fixData -> not GetSearchResponse")
+                        }
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e("TrefleDAO", "fixData -> connection error")
             }
-        } else Log.e("TrefleDAO", "fixData -> scientificName is null")
+        }
 
         return plant
     }
@@ -67,24 +56,21 @@ object TrefleDAO {
     ): List<Biljka> {
         val plants = mutableListOf<Biljka>()
 
-        try {
-            when (val filterResponse = PlantRepository.getFilterResponse(color, input)) {
-                is GetSearchResponse -> {
-                    for (result in filterResponse.results)
-                        when (val plantResponse = PlantRepository.getPlantResponse(result.slug)) {
-                            is GetPlantResponse -> {
-                                val default = Biljka()
+        when (val filterResponse = TrefleRepository.getFilterResponse(color, input)) {
+            is GetSearchResponse -> {
+                for (result in filterResponse.results) {
+                    when (val plantResponse = TrefleRepository.getPlantResponse(result.slug)) {
+                        is GetPlantResponse -> {
+                            val default = Biljka()
 
-                                default.fixWith(plantResponse.plant, true)
-                                default.onlineChecked = true
+                            default.fixWith(plantResponse.plant, true)
+                            default.onlineChecked = true
 
-                                plants.add(default)
-                            } else -> Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetPlantResponse")
+                            plants.add(default)
                         }
-                } else -> Log.e("TrefleDAO", "getPlantsWithFlowerColor -> not GetSearchResponse")
+                    }
+                }
             }
-        } catch (e: Exception) {
-            Log.e("TrefleDAO", "getPlantsWithFlowerColor -> connection error")
         }
 
         return plants

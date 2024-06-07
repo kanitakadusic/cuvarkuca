@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface Api {
+interface TrefleService {
     @GET("species/search")
     suspend fun getSearchResponse(
         @Query("q") query: String,
