@@ -22,6 +22,7 @@ data class Biljka (
 
     @ColumnInfo(name = "slug") var slug: String? = null,
     @ColumnInfo(name = "fixed") var onlineChecked: Boolean = false,
+    @ColumnInfo(name = "bitmap") var hasBitmapInDatabase: Boolean = false,
 
     @ColumnInfo(name = "name") var naziv: String = "",
     @ColumnInfo(name = "family") var porodica: String = "",

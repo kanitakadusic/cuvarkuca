@@ -27,6 +27,6 @@ import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 data class BiljkaBitmap(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
 
-    @ColumnInfo(name = "bitmap") var bitmap: Bitmap,
+    @ColumnInfo(name = "bitmap", typeAffinity = ColumnInfo.BLOB) var bitmap: Bitmap,
     @ColumnInfo(name = "plant_id") var plantId: Long
 )

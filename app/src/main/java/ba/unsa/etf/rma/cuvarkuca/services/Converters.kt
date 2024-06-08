@@ -2,7 +2,7 @@ package ba.unsa.etf.rma.cuvarkuca.services
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Base64
+import android.util.Log
 import androidx.room.TypeConverter
 import ba.unsa.etf.rma.cuvarkuca.Utility
 import ba.unsa.etf.rma.cuvarkuca.models.KlimatskiTip
@@ -10,7 +10,8 @@ import ba.unsa.etf.rma.cuvarkuca.models.MedicinskaKorist
 import ba.unsa.etf.rma.cuvarkuca.models.Zemljiste
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.nio.ByteBuffer
+import java.io.ByteArrayOutputStream
+import kotlin.math.roundToInt
 
 class Converters {
     @TypeConverter
@@ -50,21 +51,25 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromBitmap(bitmap: Bitmap): String {
-        val newBitmap = Utility.cropBitmapTo11Ratio(
-            Utility.compressBitmap(
-                bitmap
-            )
-        )
+    fun fromBitmap(bitmap: Bitmap): ByteArray {
+        var cropped = Utility.cropBitmapToSquare(bitmap)
 
-        val byteBuffer = ByteBuffer.allocate(newBitmap.height * newBitmap.rowBytes)
-        newBitmap.copyPixelsToBuffer(byteBuffer)
-        return Base64.encodeToString(byteBuffer.array(), Base64.DEFAULT)
+        while (cropped.byteCount > 500000) {
+            Log.i("*_fromBitmap", "Scaling... (" + cropped.byteCount.toString() + " bytes)")
+
+            val scaledWidth = (cropped.width * 0.8).roundToInt()
+            val scaledHeight = (cropped.height * 0.8).roundToInt()
+            cropped = Bitmap.createScaledBitmap(cropped, scaledWidth, scaledHeight, true)
+        }
+
+        val stream = ByteArrayOutputStream()
+        cropped.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
     }
 
     @TypeConverter
-    fun toBitmap(base64String: String): Bitmap {
-        val byteArray = Base64.decode(base64String, Base64.DEFAULT)
+    fun toBitmap(byteArray: ByteArray): Bitmap {
+        Log.i("*_toBitmap", "ByteArray size: " + byteArray.size.toString())
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }

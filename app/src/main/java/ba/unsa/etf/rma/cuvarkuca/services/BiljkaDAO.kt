@@ -16,7 +16,7 @@ interface BiljkaDAO {
         return withContext(Dispatchers.IO) {
             try {
                 val room = BiljkaDatabase.getInstance()!!
-                plant.id = room.roomDao().insertPlant(plant)
+                plant.id = room.roomDao().insertNewPlant(plant)
 
                 Log.i("*_savePlant", "Plant saved")
                 true
@@ -33,7 +33,7 @@ interface BiljkaDAO {
 
             try {
                 val room = BiljkaDatabase.getInstance()!!
-                val offlinePlants = room.roomDao().readOfflinePlants()
+                val offlinePlants = room.roomDao().readUnfixedPlants()
 
                 for (plant in offlinePlants) {
                     val fixedPlant = TrefleDAO.fixData(plant)
@@ -60,7 +60,7 @@ interface BiljkaDAO {
         return withContext(Dispatchers.IO) {
             try {
                 val room = BiljkaDatabase.getInstance()!!
-                room.roomDao().insertPlantBitmap(
+                room.roomDao().insertNewPlantBitmap(
                     BiljkaBitmap(
                         bitmap = bitmap,
                         plantId = id

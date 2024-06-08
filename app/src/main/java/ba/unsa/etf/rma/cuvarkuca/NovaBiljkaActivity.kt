@@ -172,7 +172,6 @@ class NovaBiljkaActivity : AppCompatActivity() {
             room?.plantDao()?.saveBiljka(fixedPlant)
 
             val intent = Intent()
-            intent.putExtra("plant", fixedPlant)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }

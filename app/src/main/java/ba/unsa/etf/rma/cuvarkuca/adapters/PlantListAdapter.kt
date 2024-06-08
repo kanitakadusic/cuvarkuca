@@ -120,15 +120,24 @@ class PlantListAdapter (
 
             scope.launch {
                 val bitmap = bitmaps.getOrPut(plant.naziv) {
-                    val trefleBitmap = TrefleDAO.getImage(plant)
-                    Log.i("*_bind", "Image fetched: " + plant.naziv)
+                    val room = BiljkaDatabase.getInstance()!!
+                    val fetchedBitmap: Bitmap?
 
-                    if (trefleBitmap != null && plant.id != 0L) {
-                        val room = BiljkaDatabase.getInstance()
-                        room?.plantDao()?.addImage(plant.id, trefleBitmap)
+                    if (plant.hasBitmapInDatabase) {
+                        fetchedBitmap = room.roomDao().readBitmapByPlantId(plant.id)
+                        Log.i("*_bind", "Database image: " + plant.naziv)
+                    } else {
+                        fetchedBitmap = TrefleDAO.getImage(plant)
+                        Log.i("*_bind", "Trefle image: " + plant.naziv)
+
+                        if (plant.id != 0L && fetchedBitmap != null) {
+                            room.plantDao().addImage(plant.id, fetchedBitmap)
+                            plant.hasBitmapInDatabase = true
+                            room.roomDao().updatePlant(plant)
+                        }
                     }
 
-                    trefleBitmap ?: BitmapFactory
+                    fetchedBitmap ?: BitmapFactory
                         .decodeResource(image.context.resources, R.drawable.default_plant_image)
                 }
 

@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.cuvarkuca.services
 
+import android.graphics.Bitmap
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -9,13 +10,13 @@ import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 @Dao
 interface RoomDao {
     @Insert
-    suspend fun insertPlant(plant: Biljka): Long
+    suspend fun insertNewPlant(plant: Biljka): Long
 
     @Query("SELECT * FROM biljka")
     suspend fun readAllPlants(): List<Biljka>
 
     @Query("SELECT * FROM biljka WHERE fixed = false")
-    suspend fun readOfflinePlants(): List<Biljka>
+    suspend fun readUnfixedPlants(): List<Biljka>
 
     @Update
     suspend fun updatePlant(plant: Biljka)
@@ -24,7 +25,10 @@ interface RoomDao {
     suspend fun deleteAllPlants()
 
     @Insert
-    suspend fun insertPlantBitmap(plantBitmap: BiljkaBitmap): Long
+    suspend fun insertNewPlantBitmap(plantBitmap: BiljkaBitmap): Long
+
+    @Query("SELECT bitmap FROM biljkabitmap WHERE plant_id = :plantId")
+    suspend fun readBitmapByPlantId(plantId: Long): Bitmap?
 
     @Query("DELETE FROM biljkabitmap")
     suspend fun deleteAllPlantBitmaps()

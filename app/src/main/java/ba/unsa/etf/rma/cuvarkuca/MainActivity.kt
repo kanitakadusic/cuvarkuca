@@ -22,6 +22,7 @@ import ba.unsa.etf.rma.cuvarkuca.models.CulinaryFocus
 import ba.unsa.etf.rma.cuvarkuca.models.Focus
 import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import ba.unsa.etf.rma.cuvarkuca.models.MedicalFocus
+import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDAO
 import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
@@ -47,9 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var plantRV: RecyclerView
     private lateinit var plantPLA: PlantListAdapter
-    private val plants: MutableList<Biljka> = mutableListOf()
 
     private lateinit var addFAB: FloatingActionButton
+
+    private lateinit var plantDAO: BiljkaDAO
 
     companion object {
         const val NEW_PLANT_REQUEST_CODE = 0
@@ -95,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
         plantPLA = PlantListAdapter(
             focusContext,
-            plants
+            mutableListOf()
         ) { plant -> onPlantClicked(plant) }
 
         plantRV = findViewById(R.id.biljkeRV)
@@ -107,13 +109,13 @@ class MainActivity : AppCompatActivity() {
 
         manageAppearanceOfInputAndColorFilters()
 
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
         BiljkaDatabase.createInstance(this)
+        plantDAO = BiljkaDatabase.getInstance()!!.plantDao()
 
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
         scope.launch {
-            val room = BiljkaDatabase.getInstance()
-            plants.addAll(room!!.plantDao().getAllBiljkas())
-            plantPLA.setNewItems(plants)
+            val fetchedPlants = plantDAO.getAllBiljkas()
+            plantPLA.setNewItems(fetchedPlants)
         }
     }
 
@@ -130,11 +132,17 @@ class MainActivity : AppCompatActivity() {
                 manageAppearanceOfInputAndColorFilters()
 
                 if (isFilteredByFlowerColor) {
-                    plantPLA.setNewItemsWithoutRefresh(plants)
-                    isFilteredByFlowerColor = false
-                }
+                    val scope = CoroutineScope(Job() + Dispatchers.Main)
+                    scope.launch {
+                        val fetchedPlants = plantDAO.getAllBiljkas()
+                        plantPLA.setNewItemsWithoutRefresh(fetchedPlants)
 
-                plantPLA.setFocusContext(focusContext)
+                        isFilteredByFlowerColor = false
+                        plantPLA.setFocusContext(focusContext)
+                    }
+                } else {
+                    plantPLA.setFocusContext(focusContext)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -142,8 +150,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onResetButtonClicked() {
-        plantPLA.setNewItems(plants)
-        isFilteredByFlowerColor = false
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            val fetchedPlants = plantDAO.getAllBiljkas()
+            plantPLA.setNewItems(fetchedPlants)
+
+            isFilteredByFlowerColor = false
+        }
     }
 
     private fun onQuickSearchButtonClicked() {
@@ -154,10 +167,12 @@ class MainActivity : AppCompatActivity() {
             isFilteredByFlowerColor = true
 
             val scope = CoroutineScope(Job() + Dispatchers.Main)
-
             scope.launch {
                 inputET.setText(R.string.loading)
-                plantPLA.setNewItems(TrefleDAO.getPlantsWithFlowerColor(color, input))
+
+                val fetchedPlants = TrefleDAO.getPlantsWithFlowerColor(color, input)
+                plantPLA.setNewItems(fetchedPlants)
+
                 inputET.text.clear()
             }
         }
@@ -209,12 +224,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == NEW_PLANT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            @Suppress("DEPRECATION")
-            val plant: Biljka = data?.getParcelableExtra("plant")!!
-
-            plants.add(plant)
+        if (requestCode == NEW_PLANT_REQUEST_CODE && resultCode == Activity.RESULT_OK)
             onResetButtonClicked()
-        }
     }
 }

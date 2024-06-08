@@ -5,6 +5,9 @@
       <entry key="BasicInstrumentedTests">
         <State />
       </entry>
+      <entry key="DatabaseTest">
+        <State />
+      </entry>
       <entry key="ValidationInstrumentedTest">
         <State />
       </entry>
