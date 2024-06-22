@@ -165,11 +165,11 @@ class NovaBiljkaActivity : AppCompatActivity() {
             zemljisniTipovi = soilMCLA.getSelectedItems()
         )
 
+        val plantDAO = BiljkaDatabase.getInstance(this).biljkaDao()
+
         lifecycleScope.launch {
             val fixedPlant = TrefleDAO.fixData(plant)
-
-            val room = BiljkaDatabase.getInstance()
-            room?.plantDao()?.saveBiljka(fixedPlant)
+            plantDAO.saveBiljka(fixedPlant)
 
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)

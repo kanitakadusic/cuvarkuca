@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cuvarkuca.adapters.ColorSpinnerAdapter
@@ -22,7 +23,6 @@ import ba.unsa.etf.rma.cuvarkuca.models.CulinaryFocus
 import ba.unsa.etf.rma.cuvarkuca.models.Focus
 import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import ba.unsa.etf.rma.cuvarkuca.models.MedicalFocus
-import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDAO
 import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var addFAB: FloatingActionButton
 
-    private lateinit var plantDAO: BiljkaDAO
+    private lateinit var plantDAO: BiljkaDatabase.BiljkaDAO
 
     companion object {
         const val NEW_PLANT_REQUEST_CODE = 0
@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         searchB.setOnClickListener { onQuickSearchButtonClicked() }
 
         plantPLA = PlantListAdapter(
+            this,
             focusContext,
             mutableListOf()
         ) { plant -> onPlantClicked(plant) }
@@ -109,13 +110,20 @@ class MainActivity : AppCompatActivity() {
 
         manageAppearanceOfInputAndColorFilters()
 
-        BiljkaDatabase.createInstance(this)
-        plantDAO = BiljkaDatabase.getInstance()!!.plantDao()
+        plantDAO = BiljkaDatabase.getInstance(this).biljkaDao()
 
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
-        scope.launch {
-            val fetchedPlants = plantDAO.getAllBiljkas()
-            plantPLA.setNewItems(fetchedPlants)
+        lifecycleScope.launch {
+            var plants = plantDAO.getAllBiljkas()
+
+            if (plants.isEmpty()) {
+                val idList = plantDAO.insertNewPlants(*biljke.toTypedArray())
+                plants = biljke
+
+                for (i in idList.indices)
+                    plants[i].id = idList[i]
+            }
+
+            plantPLA.setNewItems(plants)
         }
     }
 

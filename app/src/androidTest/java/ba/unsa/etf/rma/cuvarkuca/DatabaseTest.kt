@@ -5,12 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ba.unsa.etf.rma.cuvarkuca.models.Biljka
-import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDAO
 import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.greaterThan
@@ -22,14 +18,20 @@ import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class DatabaseTest {
-    private lateinit var dao: BiljkaDAO
+    private lateinit var dao: BiljkaDatabase.BiljkaDAO
     private lateinit var database: BiljkaDatabase
 
     @Before
     fun createDatabase() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(context, BiljkaDatabase::class.java).build()
-        dao = database.plantDao()
+        dao = database.biljkaDao()
+
+        runBlocking {
+            dao.clearData()
+            dao.saveBiljka(Biljka(slug = "populate-1"))
+            dao.saveBiljka(Biljka(slug = "populate-2"))
+        }
     }
 
     @After
@@ -39,31 +41,20 @@ class DatabaseTest {
     }
 
     @Test
-    fun saveAndGet() {
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
+    fun saveAndGet() = runBlocking {
+        val plant = Biljka(slug = "save-1")
+        dao.saveBiljka(plant)
+        val all = dao.getAllBiljkas()
 
-        scope.launch {
-            val plant = Biljka(slug = "save-1")
-            dao.saveBiljka(plant)
-            val all = dao.getAllBiljkas()
-
-            assertThat(all.size, greaterThan(0))
-            assertThat(all.last(), equalTo(plant))
-        }
+        assertThat(all.size, greaterThan(0))
+        assertThat(all.last(), equalTo(plant))
     }
 
     @Test
-    fun clearAndGet() {
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
+    fun clearAndGet() = runBlocking {
+        dao.clearData()
+        val all = dao.getAllBiljkas()
 
-        scope.launch {
-            dao.saveBiljka(Biljka(slug = "populate-1"))
-            dao.saveBiljka(Biljka(slug = "populate-2"))
-
-            dao.clearData()
-            val all = dao.getAllBiljkas()
-
-            assertThat(all.isEmpty(), equalTo(true))
-        }
+        assertThat(all.isEmpty(), equalTo(true))
     }
 }

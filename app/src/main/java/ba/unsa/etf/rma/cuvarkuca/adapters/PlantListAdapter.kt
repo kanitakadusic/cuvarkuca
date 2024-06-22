@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.cuvarkuca.adapters
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -8,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cuvarkuca.R
 import ba.unsa.etf.rma.cuvarkuca.TrefleDAO
@@ -15,16 +19,17 @@ import ba.unsa.etf.rma.cuvarkuca.models.Biljka
 import ba.unsa.etf.rma.cuvarkuca.models.FocusContext
 import ba.unsa.etf.rma.cuvarkuca.services.BiljkaDatabase
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class PlantListAdapter (
+    private val activity: Activity,
     private var focusContext: FocusContext,
     private var items: MutableList<Biljka>,
     private val onItemClicked: (plant: Biljka) -> Unit
 ) : RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
+
+    private val context = activity as Context
+    private val lifecycleOwner = activity as LifecycleOwner
 
     private var focusHasChanged: Boolean = false
 
@@ -116,24 +121,22 @@ class PlantListAdapter (
         fun bind(
             plant: Biljka
         ) {
-            val scope = CoroutineScope(Job() + Dispatchers.Main)
-
-            scope.launch {
+            lifecycleOwner.lifecycleScope.launch {
                 val bitmap = bitmaps.getOrPut(plant.naziv) {
-                    val room = BiljkaDatabase.getInstance()!!
+                    val plantDAO = BiljkaDatabase.getInstance(context).biljkaDao()
                     val fetchedBitmap: Bitmap?
 
                     if (plant.hasBitmapInDatabase) {
-                        fetchedBitmap = room.roomDao().readBitmapByPlantId(plant.id)
+                        fetchedBitmap = plantDAO.readBitmapByPlantId(plant.id ?: 0L)
                         Log.i("*_bind", "Database image: " + plant.naziv)
                     } else {
                         fetchedBitmap = TrefleDAO.getImage(plant)
                         Log.i("*_bind", "Trefle image: " + plant.naziv)
 
-                        if (plant.id != 0L && fetchedBitmap != null) {
-                            room.plantDao().addImage(plant.id, fetchedBitmap)
+                        if (plant.id != null && fetchedBitmap != null) {
+                            plantDAO.addImage(plant.id!!, fetchedBitmap)
                             plant.hasBitmapInDatabase = true
-                            room.roomDao().updatePlant(plant)
+                            plantDAO.updatePlant(plant)
                         }
                     }
 
@@ -141,13 +144,15 @@ class PlantListAdapter (
                         .decodeResource(image.context.resources, R.drawable.default_plant_image)
                 }
 
-                Glide.with(image.context)
-                    .load(bitmap)
-                    .placeholder(R.drawable.default_plant_image)
-                    .error(R.drawable.default_plant_image)
-                    .fallback(R.drawable.default_plant_image)
-                    .centerCrop()
-                    .into(image)
+                if (!activity.isDestroyed && !activity.isFinishing) {
+                    Glide.with(image.context)
+                        .load(bitmap)
+                        .placeholder(R.drawable.default_plant_image)
+                        .error(R.drawable.default_plant_image)
+                        .fallback(R.drawable.default_plant_image)
+                        .centerCrop()
+                        .into(image)
+                }
             }
 
             title.text = plant.naziv

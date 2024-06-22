@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.cuvarkuca.services
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import androidx.room.TypeConverter
 import ba.unsa.etf.rma.cuvarkuca.Utility
@@ -51,7 +52,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromBitmap(bitmap: Bitmap): ByteArray {
+    fun fromBitmap(bitmap: Bitmap): String {
         var cropped = Utility.cropBitmapToSquare(bitmap)
 
         while (cropped.byteCount > 500000) {
@@ -64,11 +65,14 @@ class Converters {
 
         val stream = ByteArrayOutputStream()
         cropped.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
+
+        val byteArray = stream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
     @TypeConverter
-    fun toBitmap(byteArray: ByteArray): Bitmap {
+    fun toBitmap(string: String): Bitmap {
+        val byteArray = Base64.decode(string, Base64.DEFAULT)
         Log.i("*_toBitmap", "ByteArray size: " + byteArray.size.toString())
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }

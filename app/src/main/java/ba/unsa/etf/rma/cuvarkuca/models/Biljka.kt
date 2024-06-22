@@ -18,20 +18,20 @@ import kotlinx.parcelize.Parcelize
     ]
 )
 data class Biljka (
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) var id: Long? = null,
 
     @ColumnInfo(name = "slug") var slug: String? = null,
-    @ColumnInfo(name = "fixed") var onlineChecked: Boolean = false,
+    @ColumnInfo(name = "onlineChecked") var onlineChecked: Boolean = false,
     @ColumnInfo(name = "bitmap") var hasBitmapInDatabase: Boolean = false,
 
-    @ColumnInfo(name = "name") var naziv: String = "",
+    @ColumnInfo(name = "naziv") var naziv: String = "",
     @ColumnInfo(name = "family") var porodica: String = "",
-    @ColumnInfo(name = "warning") var medicinskoUpozorenje: String = "",
-    @ColumnInfo(name = "benefits") var medicinskeKoristi: List<MedicinskaKorist> = listOf(),
-    @ColumnInfo(name = "taste") var profilOkusa: ProfilOkusaBiljke = ProfilOkusaBiljke.BEZUKUSNO,
-    @ColumnInfo(name = "dishes") var jela: List<String> = listOf(),
-    @ColumnInfo(name = "climates") var klimatskiTipovi: List<KlimatskiTip> = listOf(),
-    @ColumnInfo(name = "soils") var zemljisniTipovi: List<Zemljiste> = listOf()
+    @ColumnInfo(name = "medicinskoUpozorenje") var medicinskoUpozorenje: String = "",
+    @ColumnInfo(name = "medicinskeKoristi") var medicinskeKoristi: List<MedicinskaKorist> = listOf(),
+    @ColumnInfo(name = "profilOkusa") var profilOkusa: ProfilOkusaBiljke = ProfilOkusaBiljke.BEZUKUSNO,
+    @ColumnInfo(name = "jela") var jela: List<String> = listOf(),
+    @ColumnInfo(name = "klimatskiTipovi") var klimatskiTipovi: List<KlimatskiTip> = listOf(),
+    @ColumnInfo(name = "zemljisniTipovi") var zemljisniTipovi: List<Zemljiste> = listOf()
 ) : Parcelable {
 
     fun getScientificName(): String? {
