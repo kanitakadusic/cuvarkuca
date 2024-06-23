@@ -99,7 +99,7 @@ abstract class BiljkaDatabase : RoomDatabase() {
                     val offlinePlants = readUnfixedPlants()
 
                     for (plant in offlinePlants) {
-                        val fixedPlant = TrefleDAO.fixData(plant)
+                        val fixedPlant = TrefleDAO.fixData(plant.copy())
 
                         if (fixedPlant != plant) {
                             fixedCounter++

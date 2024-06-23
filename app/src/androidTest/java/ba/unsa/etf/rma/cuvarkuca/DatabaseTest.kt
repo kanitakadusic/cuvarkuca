@@ -29,8 +29,8 @@ class DatabaseTest {
 
         runBlocking {
             dao.clearData()
-            dao.saveBiljka(Biljka(slug = "populate-1"))
-            dao.saveBiljka(Biljka(slug = "populate-2"))
+            dao.saveBiljka(Biljka(naziv = "populate-1"))
+            dao.saveBiljka(Biljka(naziv = "populate-2"))
         }
     }
 
@@ -42,7 +42,7 @@ class DatabaseTest {
 
     @Test
     fun saveAndGet() = runBlocking {
-        val plant = Biljka(slug = "save-1")
+        val plant = Biljka(naziv = "save-1")
         dao.saveBiljka(plant)
         val all = dao.getAllBiljkas()
 

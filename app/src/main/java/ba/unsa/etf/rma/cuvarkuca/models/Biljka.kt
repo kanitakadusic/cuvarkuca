@@ -3,26 +3,17 @@ package ba.unsa.etf.rma.cuvarkuca.models
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import ba.unsa.etf.rma.cuvarkuca.services.PlantResult
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(
-    indices = [
-        Index(
-            value = ["slug"],
-            unique = true
-        )
-    ]
-)
+@Entity
 data class Biljka (
     @PrimaryKey(autoGenerate = true) var id: Long? = null,
 
-    @ColumnInfo(name = "slug") var slug: String? = null,
     @ColumnInfo(name = "onlineChecked") var onlineChecked: Boolean = false,
-    @ColumnInfo(name = "bitmap") var hasBitmapInDatabase: Boolean = false,
+    @ColumnInfo(name = "bitmapExists") var hasBitmapInDatabase: Boolean = false,
 
     @ColumnInfo(name = "naziv") var naziv: String = "",
     @ColumnInfo(name = "family") var porodica: String = "",
@@ -43,8 +34,6 @@ data class Biljka (
         reference: PlantResult,
         fixName: Boolean = false
     ) {
-        slug = reference.slug
-
         if (fixName) {
             naziv =
                 if (reference.commonName != null) reference.commonName + " (" + reference.scientificName + ")"
